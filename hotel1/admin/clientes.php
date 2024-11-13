@@ -61,4 +61,21 @@ include "../admin/includes/header.php";
     </div>
     </body>
 <?php include "../admin/includes/footer.php";?>
+<script>
+     const modalaggEmpleado = document.getElementById("modalCliente");
+    const btnAggEmpleado = document.getElementById("btnNuevoCliente");
+    var span = document.getElementsByClassName("close")[0];
+
+    btnAggEmpleado.onclick = function() {
+        modalaggEmpleado.style.display = "block";
+    };
+    spanClose.onclick = function() {
+        modalaggEmpleado.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modalaggHabitacion.style.display = "none"
+        }
+    }
+</script>
 </html>

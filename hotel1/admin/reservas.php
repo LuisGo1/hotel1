@@ -61,6 +61,24 @@ include "../admin/includes/header.php";
 
 
 </body>
+<script src="../js/scripts.js"></script>
 <?php include "../admin/includes/footer.php" ?>
+<script>
+    const modalaggEmpleado = document.getElementById("modalReserva");
+    const btnAggEmpleado = document.getElementById("btnNuevaReserva");
+    var span = document.getElementsByClassName("close")[0];
+
+    btnAggEmpleado.onclick = function() {
+        modalaggEmpleado.style.display = "block";
+    };
+    spanClose.onclick = function() {
+        modalaggEmpleado.style.display = "none";
+    };
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modalaggHabitacion.style.display = "none"
+        }
+    }
+</script>
 </html>
 

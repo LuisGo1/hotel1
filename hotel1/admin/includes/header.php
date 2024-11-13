@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.semanticui.css">
 
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.4/dist/sweetalert2.min.css" rel="stylesheet">
+
+
 
 
     <script src="https://kit.fontawesome.com/a9f6dfd024.js" crossorigin="anonymous"></script>
@@ -28,16 +31,18 @@
 
     <ul>
         <li><a href="../../hotel1/admin/index.php"><i class="fa-solid fa-hotel"></i> <span>Dashboard</span></a></li>
-        <li><a href="../../hotel1/admin/check.php"><i class="fa-regular fa-pen-to-square"></i> <span>Check-In <br> Check-Out</span></a></li>
+        <li><a href="../../hotel1/admin/check.php"><i class="fa-regular fa-pen-to-square"></i> <span>Check-In<br>Check-Out</span></a></li>
         <li><a href="../../hotel1/admin/clientes.php"><i class="fa-solid fa-user-plus"></i> <span>Clientes</span></a></li>
         <li><a href="../../hotel1/admin/reservas.php"><i class="fa-solid fa-calendar-check"></i> <span>Reservas</span></a></li>
-        <li><a href="../../hotel1/admin/habitaciones.php"><i class="fa-solid fa-bed"></i> <span>Habitaciones</span></a></li>
+        <li><a href="../../hotel1/admin/habitaciones.php"><i class="fa-solid fa-bed"></i><span>Habitaciones</span></a></li>
         <li><a href="../../hotel1/admin/empleados.php"><i class="fa-solid fa-user-tie"></i> <span>Empleados</span></a></li>
 
-        <!-- Línea divisoria -->
-        <hr class="separate-line" style="border: 0.5px solid #ffffff; opacity: 0.1; margin: 60px 20px 0px 20px;">
+        
 
-        <li><a href=""><i class="fa-solid fa-right-to-bracket"></i> <span>Cerrar Sesión</span></a></li>
+        <!-- Línea divisoria -->
+        <hr class="separate-line" >
+
+        <li><a href=""><i class="fa-solid fa-right-to-bracket"></i><span>Cerrar Sesión</span></a></li>
     </ul>
 </div>
 

@@ -1,7 +1,4 @@
 $(document).ready(function() {
-    // Inicializar DataTable
-
-
     // Modal: Abrir y Cerrar
     var modal = document.getElementById("modalCheckInOut");
     var btn = document.getElementById("btnNuevoCheckInOut");

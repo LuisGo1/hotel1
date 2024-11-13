@@ -15,3 +15,27 @@ body.addEventListener("click", function (event) {
         sidebar.classList.remove("active"); // Cierra el sidebar
     }
 });
+
+
+const modal = document.getElementById("modalReserva");
+const btnNuevaReserva = document.getElementById("btnNuevaReserva");
+const spanClose = document.querySelector(".close");
+
+// Mostrar el modal al hacer clic en "Nueva Reserva"
+btnNuevaReserva.onclick = function () {
+    modal.style.display = "block";
+};
+
+// Cerrar el modal al hacer clic en la "X"
+spanClose.onclick = function () {
+    modal.style.display = "none";
+};
+
+// Cerrar el modal al hacer clic fuera de la ventana modal
+window.onclick = function (event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
+
