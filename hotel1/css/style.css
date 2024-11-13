@@ -253,6 +253,27 @@ input, select {
   }
   
 }
+.estado-padre{
+    text-align: center;
+}
+.estado-texto {
+    padding: 5px 5px; /* Espaciado alrededor del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    font-weight: bold; /* Negrita para el texto */
+    color: white; /* Color del texto */
+    display: inline-block; /* Hace que el span solo ocupe el espacio necesario */
+    text-transform: uppercase;
+    font-size: 10px;
+}
 
-/* Contenedor de borde para inspeccionar elementos */
+.activo {
+    background-color: #32bc538e; /* Fondo verde */
+    border: 2px solid #218838; /* Borde más oscuro para el estado activo */
+}
+
+.inactivo {
+    background-color: #f33e50bc; /* Fondo rojo */
+    border: 2px solid #c82333; /* Borde más oscuro para el estado inactivo */
+}
+
 
