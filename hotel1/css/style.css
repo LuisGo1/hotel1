@@ -11,6 +11,10 @@
     --hoover-button:#454545;
     --header-table:#6f6f6f;
     --body-table:#f5f5dc;
+    --fondo-verde:#32bc538e;
+    --borde-verde:#218838;
+    --fondo-rojo:#f33e50bc;
+    --borde-rojo:#c82333;
 }
 
 /* Sidebar */
@@ -267,13 +271,32 @@ input, select {
 }
 
 .activo {
-    background-color: #32bc538e; /* Fondo verde */
-    border: 2px solid #218838; /* Borde más oscuro para el estado activo */
+    background-color: var(--fondo-verde); /* Fondo verde */
+    border: 2px solid var(--borde-verde); /* Borde más oscuro para el estado activo */
 }
 
 .inactivo {
-    background-color: #f33e50bc; /* Fondo rojo */
-    border: 2px solid #c82333; /* Borde más oscuro para el estado inactivo */
+    background-color: var(--fondo-rojo); /* Fondo rojo */
+    border: 2px solid var(--borde-rojo); /* Borde más oscuro para el estado inactivo */
+}
+.estado-texto {
+    padding: 5px 5px; /* Espaciado alrededor del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    font-weight: bold; /* Negrita para el texto */
+    color: white; /* Color del texto */
+    display: inline-block; /* Hace que el span solo ocupe el espacio necesario */
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.abierta {
+    background-color:var(--fondo-verde); /* Fondo verde */
+    border: 2px solid var(--borde-verde); /* Borde más oscuro para el estado activo */
+}
+
+.cerrada {
+    background-color: var(--fondo-rojo); /* Fondo rojo */
+    border: 2px solid var(--borde-rojo); 
 }
 
 
