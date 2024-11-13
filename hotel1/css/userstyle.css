@@ -1,0 +1,146 @@
+/* General */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 20px;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 24px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #575757;
+}
+
+.main-content {
+    margin-left: 240px;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* ESTILO DE LAS CAJAS DE HABITACIONES Y ESTADOS */
+
+.status {
+    display: flex;
+    gap: 5px;
+    padding: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-left: 220px;
+    margin-top: 40px;
+}
+
+.estado-card {
+    padding: 15px 20px;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(214, 214, 214);
+    font-weight: bold;
+    text-align: center;
+    min-width: 120px;
+}
+
+.cantidad {
+    margin-right: 30px;
+    margin-left: 75px;
+}
+
+.room-container {
+    max-width: 800px; /* Ancho máximo para el contenedor */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Permite que las habitaciones se ajusten en varias filas */
+    gap: 15px; /* Espacio entre las habitaciones */
+    justify-content: center; /* Centra las habitaciones dentro del contenedor */
+}
+
+.room-card {
+    width: 150px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    color: white;
+    font-size: 16px;
+}
+
+.room-card .room-number {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.room-card.available {
+    background-color: #4CAF50; /* Verde para Disponible */
+}
+
+.room-card.occupied {
+    background-color: #f44336; /* Rojo para Ocupado */
+}
+
+.room-card.maintenance {
+    background-color: #FFC107; /* Amarillo para Mantenimiento */
+    color: black;
+}
+
+.room-card.cleaning {
+    background-color: #2196F3; /* Azul para Limpieza */
+}
+
+/* DISEÑO DE LOS NIVELES */
+
+.levels {
+    display: flex;
+    gap: 5px;
+    padding: 20px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-left: 220px;
+}
+
+.level-card {
+    flex: 1;
+    font-size: 18px;
+    color: #000000;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
