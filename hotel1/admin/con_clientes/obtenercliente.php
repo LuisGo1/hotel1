@@ -32,4 +32,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['accion']) && $_GET['acc
     }
     mysqli_stmt_close($stmt);
 }
->>>>>>> 5e51d2de40982c067c0e00acc4ae7bf30681bad3
