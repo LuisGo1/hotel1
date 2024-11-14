@@ -13,11 +13,11 @@
         <h2>Hotel Admin Dashboard</h2>
         <ul>
             <li><a href="../../hotel1/user/index.php">Dashboard</a></li>
-            <li><a href="../user/recepcion.html">Recepción</a></li>
-            <li><a href="../admin/clientes.html">Clientes</a></li>
-            <li><a href="../admin/reservas.html">Reservas</a></li>
-            <li><a href="../admin/habitaciones.html">Habitaciones</a></li>
-            <li><a href="../admin/empleados.html">Empleados</a></li>
+            <li><a href="../user/recepcion.php">Recepción</a></li>
+            <li><a href="../admin/clientes.php">Clientes</a></li>
+            <li><a href="../admin/reservas.php">Reservas</a></li>
+            <li><a href="../admin/habitaciones.php">Habitaciones</a></li>
+            <li><a href="../admin/empleados.php">Empleados</a></li>
         </ul>
     </div>
 

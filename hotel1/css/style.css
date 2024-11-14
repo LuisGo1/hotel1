@@ -254,5 +254,9 @@ input, select {
   
 }
 
+/* ocultar cuartoID*/
+.ocultar-columna{
+    display: none;
+}
 /* Contenedor de borde para inspeccionar elementos */
 

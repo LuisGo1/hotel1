@@ -38,4 +38,42 @@ window.onclick = function (event) {
     }
 };
 
+// scripts.js
+document.getElementById("formNuevaHabitacion").addEventListener("submit", function(event) {
+    event.preventDefault();
 
+    const tipoHabitacion = document.getElementById("tipoHabitacion").value;
+    const precioHabitacion = document.getElementById("precioHabitacion").value;
+    const estadoHabitacion = document.getElementById("estadoHabitacion").value;
+
+    fetch("habitaciones.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `tipo_habitacion=${encodeURIComponent(tipoHabitacion)}&precio_noche=${encodeURIComponent(precioHabitacion)}&estado=${encodeURIComponent(estadoHabitacion)}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            const tbody = document.querySelector("#tablaCheckInOut tbody");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>${data.numero_habitacion}</td>
+                <td>${tipoHabitacion}</td>
+                <td>$${precioHabitacion}</td>
+                <td>${estadoHabitacion}</td>
+                <td>
+                    <button class='btnEditar' onclick='editarHabitacion(${data.cuarto_id})'>Editar</button>
+                    <button class='btnEliminar' onclick='eliminarHabitacion(${data.cuarto_id})'>Eliminar</button>
+                </td>
+            `;
+            tbody.appendChild(newRow);
+            document.getElementById("formNuevaHabitacion").reset();
+            modalaggHabitacion.style.display = "none";
+        } else {
+            alert("Error al guardar la habitación");
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
