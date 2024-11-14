@@ -8,9 +8,10 @@
     background-color: #f4f4f9;
 }
 :root{
-    --hoover-button:#454545;
-    --header-table:#6f6f6f;
-    --body-table:#f5f5dc;
+    --background-button:#454545c3;
+    --hoover-button:#007BFF;
+    --header-table:#007BFF;
+    --body-table:#e4e4e48d;
     --fondo-verde:#32bc538e;
     --borde-verde:#218838;
     --fondo-rojo:#f33e50bc;
@@ -131,7 +132,7 @@ button {
     padding: 8px 16px;
     margin: 10px 5px;
     border: none;
-    background-color: #007BFF;
+    background-color: var(--background-button);
     color: white;
     cursor: pointer;
 }

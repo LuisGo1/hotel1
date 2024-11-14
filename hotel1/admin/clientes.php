@@ -5,7 +5,7 @@ include "../admin/includes/header.php";
 <div class="main-content">
     <h1>Clientes</h1>
 
-    <table id="tablaClientes" class="display">
+    <table id="tablaCheckInOut" class="display">
         <thead>
             <tr>
                 <th>NOMBRE</th>
@@ -22,7 +22,7 @@ include "../admin/includes/header.php";
         <tbody>
             <?php
             include("../conecction/db.php");
-            $result = mysqli_query($conexion, "SELECT cliente_id, nombre_cliente, apellido_client, telefono, email, direccion, comentarios, DATE(fecha_registro) as fecha FROM clientes;");
+            $result = mysqli_query($conexion, "SELECT cliente_id, nombre_cliente, apellido_cliente, telefono, email, direccion, comentarios, DATE(fecha_registro) as fecha FROM clientes;");
             while ($fila = mysqli_fetch_assoc($result)) :
             ?>
                 <tr>
@@ -47,6 +47,7 @@ include "../admin/includes/header.php";
     </table>
 
     <button id="btnNuevoCliente">Nuevo Cliente</button>
+    <a href="../admin/con_clientes/obtenercliente.php">asdas</a>
 
     <!-- Modal para agregar nuevo cliente -->
     <div id="modalCliente" class="modal">
@@ -158,7 +159,7 @@ include "../admin/includes/header.php";
 
         $.ajax({
             type: 'GET',
-            url: '../admin/consultas/obtenercliente.php',
+            url: '../admin/con_clientes/obtenercliente.php',
             data: { id: clienteId },
             success: function(data) {
                 const cliente = JSON.parse(data);
