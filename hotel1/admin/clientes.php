@@ -32,11 +32,11 @@ include "../admin/includes/header.php";
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['comentarios']; ?></td>
                     <td><?php echo $fila['fecha']; ?></td>
-                    <td>
+                    <td style="display: flex;">
                         <button class="btnEditar" data-id="<?php echo $fila['cliente_id']; ?>" onclick="editarCliente(this)">
                             <i class="fa fa-edit"></i>
                         </button>
-                        <button class="btnEliminar" onclick="confirmDelete(<?php echo $fila['cliente_id']; ?>, '<?php echo $fila['nombre_cliente']; ?>')">
+                        <button class="btnEliminar"style="width: 60px; margin-left: 5px;" onclick="confirmDelete(<?php echo $fila['cliente_id']; ?>, '<?php echo $fila['nombre_cliente']; ?>')">
                             <i class="fa fa-trash" aria-hidden="true"></i>
                         </button>
                     </td>

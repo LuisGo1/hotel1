@@ -166,20 +166,28 @@ Una minúscula y un número."
     const modalaggEmpleado = document.getElementById("modalEmpleado");
     const modaleditEmpleado = document.getElementById("modalEditarEmpleado");
     const btnAggEmpleado = document.getElementById("btnNuevoEmpleado");
-    var span = document.getElementById("btnclose");
-    var span1 = document.getElementById("btncloseEditar");
+    const spanCloseAgg = document.getElementById("btnclose");
+    const spanCloseEdit = document.getElementById("btncloseEditar");
 
     btnAggEmpleado.onclick = function() {
         modalaggEmpleado.style.display = "block";
     };
-
-
-
     window.onclick = function(event) {
         if (event.target == modalaggEmpleado) {
-            modalaggEmpleado.style.display = "none";
+            verificarYCerrarModal();
+        } else if (event.target == modaleditEmpleado) {
+            verificarYCerrarModalEdit();
         }
-    }
+    };
+    spanCloseAgg.onclick = function() {
+        verificarYCerrarModal();
+    };
+
+
+    spanCloseEdit.onclick = function() {
+        verificarYCerrarModalEdit();
+    };
+
 
     // Validación del formulario antes de enviarlo
     $(document).ready(function() {
@@ -290,19 +298,6 @@ Una minúscula y un número."
 
 
 
-    window.onclick = function(event) {
-        if (event.target == modalaggEmpleado) {
-            verificarYCerrarModal();
-        }
-    };
-
-
-    // Cerrar modal con el botón de cerrar (X)
-    span.onclick = function(event) {
-        verificarYCerrarModal();
-    };
-
-
     // Función para verificar si hay datos y evitar el cierre del modal si hay datos ingresados
     function verificarYCerrarModal() {
         // Obtener los valores de los campos del formulario
@@ -335,15 +330,7 @@ Una minúscula y un número."
         }
     }
 
-    // Funciones de modal editar empleado
-    window.onclick = function(event) {
-        if (event.target == modaleditEmpleado) {
-            verificarYCerrarModalEdit();
-        }
-    };
-    span1.onclick = function(event) {
-        verificarYCerrarModalEdit();
-    };
+
 
     function verificarYCerrarModalEdit() {
         // Obtener los valores de los campos del formulario

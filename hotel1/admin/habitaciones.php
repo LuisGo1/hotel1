@@ -11,14 +11,14 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
         <thead>
             <tr>
                 <th>Cuarto ID</th>
-                <th>Numero de Habitacion</th>
+                <th >Numero de Habitacion</th>
                 <th>Tipo de Habitación</th>
-                <th>Descripcion</th>
+                <th >Descripcion</th>
                 <th>Capacidad</th>
-                <th>Precio Noche</th>
+                <th >Precio Noche</th>
                 <th>Estado</th>
                 <th>Fecha de Registro</th>
-                <th>Acciones</th>
+                <th >Acciones</th>
             </tr>
         </thead>
         <tbody>
@@ -35,12 +35,12 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
                     echo "<td>" . htmlspecialchars($fila['tipo_habitacion']) . "</td>";
                     echo "<td>" . htmlspecialchars($fila['descripcion']) . "</td>";
                     echo "<td>" . htmlspecialchars($fila['capacidad']) . "</td>";
-                    echo "<td>$" . htmlspecialchars($fila['precio_noche']) . "</td>";
+                    echo "<td style='style='text-align: center;'>$" . htmlspecialchars($fila['precio_noche']) . "</td>";
                     echo "<td>" . htmlspecialchars($fila['estado']) . "</td>";
                     echo "<td>" . htmlspecialchars($fila['fecha_registro']) . "</td>";
-                    echo "<td>";
-                    echo "<button class='btnEditar' onclick='editarHabitacion(" . htmlspecialchars($fila['cuarto_id']) . ")'>Editar</button>";
-                    echo "<button class='btnEliminar' onclick='eliminarHabitacion(" . htmlspecialchars($fila['cuarto_id']) . ")'>Eliminar</button>";
+                    echo "<td style='display: flex; justify-content: center; align-items: center; height: 60px; gap: 2px;' >";
+                    echo "<button class='btnEditar' onclick='editarHabitacion(" . htmlspecialchars($fila['cuarto_id']) . ")'> <i class='fa fa-edit'></i></button>";
+                    echo "<button class='btnEliminar' style='width: 60px;' onclick='eliminarHabitacion(" . htmlspecialchars($fila['cuarto_id']) . ")'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                     echo "</td>";
                     echo "</tr>";
                     
@@ -124,8 +124,6 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
                     <option value="mantenimiento">Mantenimiento</option>
                 </select>
 
-                <label for="fechaRegistroEditar">Fecha de Registro:</label>
-                <input type="date" id="fechaRegistroEditar" name="fecha_registro" required />
 
                 <button type="submit">Guardar cambios</button>
             </form>
@@ -137,7 +135,6 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
 
 <script src="../js/scripts.js"></script>
 <script>
-    // Código para manejar la apertura y cierre del modal
     const modalaggHabitacion = document.getElementById("modalHabitacion");
     const btnAggHabitacion = document.getElementById("btnNuevaHabitacion");
     const span = document.getElementsByClassName("close")[0];
@@ -157,9 +154,8 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
 
 <script>
     document.getElementById("formNuevaHabitacion").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+    event.preventDefault(); 
 
-    // Obtener los valores del formulario
     var numeroHabitacion = document.getElementById("numeroHabitacion").value;
     var tipoHabitacion = document.getElementById("tipoHabitacion").value;
     var descripcion = document.getElementById("descripcion").value;
@@ -168,16 +164,13 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
     var estadoHabitacion = document.getElementById("estadoHabitacion").value;
     var fechaRegistro = document.getElementById("fechaRegistro").value;
 
-    // Deshabilitar el botón de guardar mientras se envía la solicitud
     var submitButton = document.querySelector("#formNuevaHabitacion button[type='submit']");
     submitButton.disabled = true;
 
-    // Realizar la solicitud AJAX
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "agregarHabitacion.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    // Enviar los datos del formulario
     xhr.send("numero_habitacion=" + encodeURIComponent(numeroHabitacion) + 
              "&tipo_habitacion=" + encodeURIComponent(tipoHabitacion) + 
              "&descripcion=" + encodeURIComponent(descripcion) +
@@ -186,19 +179,16 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
              "&estado=" + encodeURIComponent(estadoHabitacion) +
              "&fecha_registro=" + encodeURIComponent(fechaRegistro));
 
-    // Manejar la respuesta del servidor
+
     xhr.onload = function() {
-        submitButton.disabled = false; // Reactivar el botón de guardar
+        submitButton.disabled = false; 
         if (xhr.status == 200) {
             var response = JSON.parse(xhr.responseText);
             if (response.success) {
-                // Cerrar el modal
                 modalaggHabitacion.style.display = "none";
                 
-                // Limpiar los campos del formulario
                 document.getElementById("formNuevaHabitacion").reset();
                 
-                // Agregar la nueva habitación a la tabla (de manera dinámica)
                 var nuevaFila = document.createElement("tr");
                 nuevaFila.innerHTML = "<td>" + response.cuarto_id + "</td>" +
                                       "<td>" + response.numero_habitacion + "</td>" + 
@@ -222,27 +212,25 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
     };
 
     xhr.onerror = function() {
-        submitButton.disabled = false; // Reactivar el botón de guardar en caso de error
+        submitButton.disabled = false; 
         alert("Error de conexión. Por favor, inténtalo de nuevo.");
     };
 });
 
 function eliminarHabitacion(cuarto_id) {
-    // Confirmar antes de eliminar
+
     if (confirm("¿Estás seguro de que quieres eliminar esta habitación?")) {
-        // Realizar la solicitud AJAX para eliminar la habitación
+        
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "../admin/eliminarHabitacion.php", true);  // Ajusta la ruta según sea necesario
+        xhr.open("POST", "../admin/eliminarHabitacion.php", true);  
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-        // Enviar el ID de la habitación a eliminar
         xhr.send("cuarto_id=" + encodeURIComponent(cuarto_id));
 
         xhr.onload = function() {
             if (xhr.status == 200) {
                 var response = JSON.parse(xhr.responseText);
                 if (response.success) {
-                    // Si la eliminación es exitosa, eliminamos la fila de la tabla
                     var row = document.querySelector("tr[data-cuarto-id='" + cuarto_id + "']");
                     if (row) {
                         row.remove();
@@ -280,8 +268,6 @@ function editarHabitacion(cuarto_id) {
                     document.getElementById("capacidadEditar").value = response.data.capacidad;
                     document.getElementById("precioHabitacionEditar").value = response.data.precio_noche;
                     document.getElementById("estadoHabitacionEditar").value = response.data.estado;
-                    document.getElementById("fechaRegistroEditar").value = response.data.fecha_registro;
-
                     document.getElementById("modalEditarHabitacion").style.display = "block";
                 } else {
                     alert("Error al obtener los datos de la habitación.");
@@ -312,7 +298,6 @@ document.getElementById("formEditarHabitacion").addEventListener("submit", funct
     var capacidad = document.getElementById("capacidadEditar").value;
     var precioHabitacion = document.getElementById("precioHabitacionEditar").value;
     var estadoHabitacion = document.getElementById("estadoHabitacionEditar").value;
-    var fechaRegistro = document.getElementById("fechaRegistroEditar").value;
 
     // Realizar la solicitud AJAX para actualizar la habitación
     var xhr = new XMLHttpRequest();

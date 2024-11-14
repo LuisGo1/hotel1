@@ -77,3 +77,7 @@ document.getElementById("formNuevaHabitacion").addEventListener("submit", functi
     })
     .catch(error => console.error("Error:", error));
 });
+
+$(document).ready(function() {
+    $('#resumenTable').DataTable();
+});

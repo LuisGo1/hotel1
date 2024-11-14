@@ -1,5 +1,5 @@
 document.getElementById("loginForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent form submission
+    event.preventDefault(); 
 
     let email = document.getElementById("email");
     let password = document.getElementById("password");
@@ -8,7 +8,6 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 
     let isValid = true;
 
-    // Check email field
     if (email.value.trim() === "") {
         emailError.style.display = "inline";
         isValid = false;
@@ -16,7 +15,6 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         emailError.style.display = "none";
     }
 
-    // Check password field
     if (password.value.trim() === "") {
         passwordError.style.display = "inline";
         isValid = false;
@@ -24,9 +22,34 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
         passwordError.style.display = "none";
     }
 
-    // If both fields are valid, submit the form (or handle login)
     if (isValid) {
-        alert("Login successful!");
-        // Here you can add the logic for actual login
+        let formData = new FormData();
+        formData.append("correo", email.value);
+        formData.append("password", password.value);
+
+        fetch('validacion/login_val.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            if (data.includes("Error: Usuario o Contraseña Son Incorrectas")) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Usuario o contraseña incorrectos.',
+                    icon: 'error',
+                });
+            } else {
+                
+                window.location.href = data;
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                title: 'Error',
+                text: 'Hubo un problema al procesar la solicitud.',
+                icon: 'error',
+            });
+        });
     }
 });
