@@ -1,31 +1,17 @@
 <?php
 include "../../conecction/db.php";
 
-// Verificar la conexión
-if (!$conexion) {
-    die("Error en la conexión a la base de datos: " . mysqli_connect_error());
-}
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['id'])) {
+    $cliente_id = $_GET['id'];
 
-// Verificar datos recibidos
-var_dump($_POST); // O $_GET en caso de que uses GET
-die(); // Para detener la ejecución aquí y ver los resultados
-
-if (isset($_POST['id'])) {
-    $clienteId = $_POST['id'];
     $query = "DELETE FROM clientes WHERE cliente_id = ?";
-    $stmt = $conexion->prepare($query);
-    $stmt->bind_param("i", $clienteId);
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "i", $cliente_id);
 
-    if ($stmt->execute()) {
-        echo json_encode(["success" => true]);
+    if (mysqli_stmt_execute($stmt)) {
+        header('Location: ../../admin/clientes.php?m=1');
     } else {
-        echo json_encode(["error" => "Error al eliminar el cliente"]);
+        echo "Error al eliminar el cliente.";
     }
-
-    $stmt->close();
-} else {
-    echo json_encode(["error" => "ID de cliente no recibido para eliminar"]);
+    mysqli_stmt_close($stmt);
 }
-
-$conexion->close();
-?>

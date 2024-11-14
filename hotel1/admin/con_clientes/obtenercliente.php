@@ -1,33 +1,21 @@
 <?php
 include "../../conecction/db.php";
-
-// Verificar la conexión
-if (!$conexion) {
-    die("Error en la conexión a la base de datos: " . mysqli_connect_error());
-}
-
-// Verificar datos recibidos
-var_dump($_POST); // O $_GET en caso de que uses GET
-die(); // Para detener la ejecución aquí y ver los resultados
-
-if (isset($_GET['id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['accion']) && $_GET['accion'] === 'obtener') {
     $clienteId = $_GET['id'];
+
     $query = "SELECT * FROM clientes WHERE cliente_id = ?";
-    $stmt = $conexion->prepare($query);
-    $stmt->bind_param("i", $clienteId);
-    $stmt->execute();
-    $result = $stmt->get_result();
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "i", $clienteId);
 
-    if ($cliente = $result->fetch_assoc()) {
-        echo json_encode($cliente);
+    if (mysqli_stmt_execute($stmt)) {
+        $result = mysqli_stmt_get_result($stmt);
+        if ($row = mysqli_fetch_assoc($result)) {
+            echo json_encode($row);
+        } else {
+            echo json_encode(["error" => "Cliente no encontrado."]);
+        }
     } else {
-        echo json_encode(["error" => "Cliente no encontrado"]);
+        echo json_encode(["error" => "Error al obtener el cliente."]);
     }
-
-    $stmt->close();
-} else {
-    echo json_encode(["error" => "ID de cliente no recibido"]);
+    mysqli_stmt_close($stmt);
 }
-
-$conexion->close();
-?>
