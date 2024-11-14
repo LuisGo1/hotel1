@@ -75,6 +75,37 @@ include "../admin/includes/header.php";
             </form>
         </div>
     </div>
+
+    <!-- MODAL EDITAR CLIENTE -->
+    <div id="modalEditarCliente" class="modal">
+        <div class="modal-content">
+            <span class="close" id="btncloseEditar">&times;</span>
+            <h2>Editar Cliente</h2>
+            <form id="formNuevoEmpleado">
+                <label for="nombreCliente">Nombre:</label>
+                <input type="text" id="editnombreCliente" name="nombreCliente" />
+
+                <label for="apellidoCliente">Apellidos:</label>
+                <input type="text" id="editapellidoCliente" name="apellidoCliente" />
+                <label for="telefonocliente">Telefono:</label>
+                <input type="text" id="editTelefonoCliente" name="telefonocliente" />
+
+                <label for="correoCliente">Correo:</label>
+                <input type="email" id="editcorreoCliente" name="correoCliente" />
+
+                <label for="direccioncliente">Dirección:</label>
+                <input type="text" id="editdireccionCliente" name="direccioncliente" />
+                <label for="comentarioscliente">Comentarios:</label>
+                <input type="text" id="editcomentariosCliente" name="comentarioscliente" />
+
+                <button type="submit" style="margin-top: 10px;" id="GuardarCambios">Guardar Cambios</button>
+
+            </form>
+        </div>
+    </div>
+
+
+
 </div>
 </body>
 
@@ -85,8 +116,11 @@ include "../admin/includes/header.php";
 <script>
     // Manejo de modal
     const modalNuevoCliente = document.getElementById("modalCliente");
+    const modalEditarCliente = document.getElementById("modalEditarCliente");
     const btnNuevoCliente = document.getElementById("btnNuevoCliente");
+    const btnGuardar = document.getElementById("GuardarCambios");
     const btnClose = document.getElementById("btnclose");
+    const btnCloseEditar = document.getElementById("btncloseEditar");
 
     btnNuevoCliente.onclick = function() {
         modalNuevoCliente.style.display = "block";
@@ -108,7 +142,7 @@ include "../admin/includes/header.php";
         var nombre = $('#nombreCliente').val().trim();
         var apellidos = $('#apellidoCliente').val().trim();
         var telefono = $('#telefonoCliente').val().trim();
-        var email= $('#emailCliente').val().trim();
+        var email = $('#emailCliente').val().trim();
         var direccion = $('#direccionCliente').val().trim();
         var comentarios = $('#comentariosCliente').val().trim();
 
@@ -134,6 +168,7 @@ include "../admin/includes/header.php";
 
         }
     }
+
     function limpiarCamposFormulario() {
         $('#nombreCliente').val('');
         $('#apellidoCliente').val('');
@@ -158,7 +193,7 @@ include "../admin/includes/header.php";
             var comentarios = $('#comentariosCliente').val().trim();
 
             // Verificamos si hay algún campo vacío
-            if (nombre === '' || apellidos === '' || telefono === '' || email === '' || direccion === '' ) {
+            if (nombre === '' || apellidos === '' || telefono === '' || email === '' || direccion === '') {
                 Swal.fire({
                     title: 'Error',
                     text: 'Todos los campos son obligatorios',
@@ -216,7 +251,7 @@ include "../admin/includes/header.php";
                         title: '¡Mensaje!',
                         text: data,
                         icon: 'success',
-                        timer:1500,
+                        timer: 1500,
                         showConfirmButton: false
                     }).then(function() {
                         window.location = "../admin/clientes.php";
@@ -238,7 +273,7 @@ include "../admin/includes/header.php";
         });
     });
 
-   
+
 
     // Función para eliminar cliente
     function confirmDelete(cliente_id, nombre_cliente) {
@@ -258,49 +293,186 @@ include "../admin/includes/header.php";
         });
     }
 
+
+
+    window.onclick = function(event) {
+        if (event.target == modalEditarCliente) {
+            verificarYCerrarModal();
+        }
+    };
+
+
+    btnCloseEditar.onclick = function(event) {
+        verificarYCerrarModal();
+    };
+
+    function verificarYCerrarModal() {
+
+
+
+        var nombre = $('#editnombreCliente').val().trim();
+        var apellidos = $('#editapellidoCliente').val().trim();
+        var telefono = $('#editTelefonoCliente').val().trim();
+        var email = $('#editcorreoCliente').val().trim();
+        var direccion = $('#editdireccionCliente').val().trim();
+        var comentarios = $('#editcomentariosCliente').val().trim();
+
+        // Si alguno de los campos tiene datos, mostrar advertencia antes de cerrar el modal
+        if (nombre || apellidos || telefono || email || direccion || comentarios) {
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'Tienes campos llenos. ¿Estás seguro que quieres salir sin guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    modalEditarCliente.style.display = "none";
+                }
+            });
+        } else {
+            modalEditarCliente.style.display = "none";
+
+        }
+    }
+
+
     // Función para abrir el modal cuando se hace clic en el botón de editar
     function editarCliente(button) {
-        const clienteId = button.getAttribute("data-id");
+        // Obtener el ID del empleado desde el atributo 'data-id' del botón
+        const clienteId = button.getAttribute('data-id');
+        console.log('ID del empleado:', clienteId);
 
-        // Realizar una solicitud AJAX para obtener los datos del cliente
+        // Realizar una solicitud AJAX para obtener los datos del empleado
         $.ajax({
             type: 'GET',
-            url: '../admin/consultas/obtenercliente.php',
+            url: '../admin/con_clientes/obtenercliente.php', // Ruta al archivo PHP
             data: {
                 id: clienteId
-            },
+            }, // Enviar el ID del empleado
             success: function(data) {
+                // Convertir la respuesta a formato JSON
                 const cliente = JSON.parse(data);
+                console.log('base', cliente);
 
                 // Verificamos si la respuesta contiene un error
                 if (cliente.error) {
                     Swal.fire({
-                        title: "Error",
+                        title: 'Error',
                         text: cliente.error,
-                        icon: "error",
+                        icon: 'error'
                     });
                     return;
                 }
 
-                // Rellenar los campos del formulario con los datos del cliente
-                $("#nombreCliente").val(cliente.nombre_cliente);
-                $("#apellidoCliente").val(cliente.apellido_client);
-                $("#telefonoCliente").val(cliente.telefono);
-                $("#emailCliente").val(cliente.email);
-                $("#direccionCliente").val(cliente.direccion);
-                $("#comentariosCliente").val(cliente.comentarios);
+                $('#editnombreCliente').val(cliente.nombre_cliente);
+                $('#editapellidoCliente').val(cliente.apellido_cliente);
+                $('#editTelefonoCliente').val(cliente.telefono);
+                $('#editcorreoCliente').val(cliente.email);
+                $('#editdireccionCliente').val(cliente.direccion);
+                $('#editcomentariosCliente').val(cliente.comentarios);
 
-                // Mostrar el modal con los datos del cliente
-                modalNuevoCliente.style.display = "block";
+
+
+                // Mostrar el modal con los datos del empleado
+                $('#modalEditarCliente').show();
             },
             error: function(xhr, status, error) {
-                console.log("Error al obtener los datos del cliente:", xhr.responseText);
+                console.log('Error al obtener los datos del empleado:', xhr.responseText);
                 Swal.fire({
-                    title: "Error",
-                    text: "Hubo un problema al cargar los datos del cliente.",
-                    icon: "error",
+                    title: 'Error',
+                    text: 'Hubo un problema al cargar los datos del empleado.',
+                    icon: 'error'
                 });
-            },
+            }
+        });
+        // Función para manejar el clic en el botón "Guardar Cambios" y realizar el update
+        $('#GuardarCambios').click(function(e) {
+            e.preventDefault(); 
+
+
+            var nombre = $('#editnombreCliente').val().trim();
+            var apellidos = $('#editapellidoCliente').val().trim();
+            var telefono = $('#editTelefonoCliente').val().trim();
+            var email = $('#editcorreoCliente').val().trim();
+            var direccion = $('#editdireccionCliente').val().trim();
+            var comentarios = $('#editcomentariosCliente').val().trim();
+
+            // Verificamos si algún campo obligatorio está vacío
+            if (nombre === '' || apellidos === '' || telefono === '' || email === '' || direccion === '') {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Todos los campos son obligatorios',
+                    icon: 'error'
+                });
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '../admin/con_clientes/actualizarCliente.php',
+                data: {
+                    id: clienteId, // ID del empleado que se va a actualizar
+                    nombre: nombre,
+                    apellidos: apellidos,
+                    telefono: telefono,
+                    correo: email,
+                    direccion: direccion,
+                    comentarios: comentarios
+                    
+                },
+                success: function(data) {
+                    // Verificamos la respuesta del servidor
+                    const response = JSON.parse(data);
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: 'Cliente actualizado correctamente',
+                            timer: 1500,
+                            showConfirmButton: false,
+                            icon: 'success'
+                        }).then(function() {
+                            // Cerrar el modal y recargar la página o realizar otras acciones
+                            $('#modalEditarCliente').hide();
+                            window.location.reload(); // Recargar la página
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: response.error,
+                            icon: 'error'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error al actualizar los datos del empleado:', xhr.responseText);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema al actualizar los datos del empleado.',
+                        icon: 'error'
+                    });
+                }
+            });
+        });
+
+
+    }
+    function confirmDelete(cliente_id, nombre_Cliente) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: `Esta acción eliminará a ${nombre_Cliente}. ¿Estás seguro de eliminar a ${nombre_Cliente}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            confirmButtonColor: '#3085d6',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#C4044A'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Redirect to the delete URL with the ID
+                window.location.href = '../admin/con_clientes/eliminarcliente.php?id=' + cliente_id;
+            }
         });
     }
 </script>

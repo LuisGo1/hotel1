@@ -129,12 +129,13 @@ td{
 
 button {
     
-    padding: 8px 16px;
+    padding: 10px 16px;
     margin: 10px 5px;
-    border: none;
     background-color: var(--background-button);
+    border-radius: 15px;
     color: white;
     cursor: pointer;
+    border: none;
 }
 
 button:hover {
