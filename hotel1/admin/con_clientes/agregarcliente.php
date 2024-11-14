@@ -1,34 +1,23 @@
 <?php
 include "../../conecction/db.php";
 
-// Verificamos que todos los datos requeridos estén presentes en $_POST
-if (isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['telefono']) && isset($_POST['correo']) && isset($_POST['direccion']) && isset($_POST['comentarios'])) {
-    $nombre = trim($_POST['nombre']);
-    $apellido = trim($_POST['apellido']);
-    $telefono = trim($_POST['telefono']);
-    $correo = trim($_POST['correo']);
-    $direccion = trim($_POST['direccion']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'agregar') {
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $telefono = $_POST['telefono'];
+    $email = $_POST['email'];
+    $direccion = $_POST['direccion'];
     $comentarios = $_POST['comentarios'];
 
-    // Validamos que el teléfono sea un valor numérico
-    if (!is_numeric($telefono)) {
-        echo 'Número de teléfono inválido';
+    $query = "INSERT INTO clientes (nombre_cliente, apellido_client, telefono, email, direccion, comentarios)
+              VALUES (?, ?, ?, ?, ?, ?)";
+    $stmt = mysqli_prepare($conexion, $query);
+    mysqli_stmt_bind_param($stmt, "ssssss", $nombre, $apellido, $telefono, $email, $direccion, $comentarios);
+
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode(["success" => true]);
     } else {
-        // Insertamos el cliente en la tabla, omitiendo el campo `fecha_registro`
-        $consulta = "INSERT INTO `clientes` (nombre_cliente, apellido_client, telefono, email, direccion, comentarios) 
-                     VALUES ('$nombre', '$apellido', '$telefono', '$correo', '$direccion', '$comentarios')";
-        $resultado = mysqli_query($conexion, $consulta);
-
-        if ($resultado) {
-            echo 'Los datos se guardaron correctamente';
-        } else {
-            echo 'Ocurrió un error al guardar los datos: ' . mysqli_error($conexion);
-        }
+        echo json_encode(["error" => "Error al guardar el cliente."]);
     }
-} else {
-    echo 'Datos incompletos';
+    mysqli_stmt_close($stmt);
 }
-
-// Cerramos la conexión
-$conexion->close();
-?>
