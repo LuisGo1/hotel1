@@ -8,9 +8,14 @@
     background-color: #f4f4f9;
 }
 :root{
-    --hoover-button:#454545;
-    --header-table:#6f6f6f;
-    --body-table:#f5f5dc;
+    --background-button:#454545c3;
+    --hoover-button:#007BFF;
+    --header-table:#007BFF;
+    --body-table:#e4e4e48d;
+    --fondo-verde:#32bc538e;
+    --borde-verde:#218838;
+    --fondo-rojo:#f33e50bc;
+    --borde-rojo:#c82333;
 }
 
 /* Sidebar */
@@ -127,7 +132,7 @@ button {
     padding: 8px 16px;
     margin: 10px 5px;
     border: none;
-    background-color: #007BFF;
+    background-color: var(--background-button);
     color: white;
     cursor: pointer;
 }
@@ -253,6 +258,46 @@ input, select {
   }
   
 }
+.estado-padre{
+    text-align: center;
+}
+.estado-texto {
+    padding: 5px 5px; /* Espaciado alrededor del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    font-weight: bold; /* Negrita para el texto */
+    color: white; /* Color del texto */
+    display: inline-block; /* Hace que el span solo ocupe el espacio necesario */
+    text-transform: uppercase;
+    font-size: 10px;
+}
 
-/* Contenedor de borde para inspeccionar elementos */
+.activo {
+    background-color: var(--fondo-verde); /* Fondo verde */
+    border: 2px solid var(--borde-verde); /* Borde más oscuro para el estado activo */
+}
+
+.inactivo {
+    background-color: var(--fondo-rojo); /* Fondo rojo */
+    border: 2px solid var(--borde-rojo); /* Borde más oscuro para el estado inactivo */
+}
+.estado-texto {
+    padding: 5px 5px; /* Espaciado alrededor del texto */
+    border-radius: 15px; /* Bordes redondeados */
+    font-weight: bold; /* Negrita para el texto */
+    color: white; /* Color del texto */
+    display: inline-block; /* Hace que el span solo ocupe el espacio necesario */
+    text-transform: uppercase;
+    font-size: 10px;
+}
+
+.abierta {
+    background-color:var(--fondo-verde); /* Fondo verde */
+    border: 2px solid var(--borde-verde); /* Borde más oscuro para el estado activo */
+}
+
+.cerrada {
+    background-color: var(--fondo-rojo); /* Fondo rojo */
+    border: 2px solid var(--borde-rojo); 
+}
+
 
