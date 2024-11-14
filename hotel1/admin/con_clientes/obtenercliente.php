@@ -24,14 +24,4 @@ if (isset($_GET['id'])) {
     } else {
         echo json_encode(["error" => "Error al preparar la consulta"]);
     }
-<<<<<<< HEAD
-} else {
-    echo json_encode(["error" => "ID de Cliente no recibido"]);
 }
-
-mysqli_close($conexion);
-?>
-=======
-    mysqli_stmt_close($stmt);
-}
->>>>>>> 4b38a2db844de7ae98ba2be20a541b07536c15c4
