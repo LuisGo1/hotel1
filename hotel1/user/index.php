@@ -13,14 +13,16 @@
         <h2>Hotel Admin Dashboard</h2>
         <ul>
             <li><a href="../../hotel1/user/index.php">Dashboard</a></li>
-            <li><a href="../user/recepcion.html">Recepción</a></li>
-            <li><a href="../admin/clientes.html">Clientes</a></li>
-            <li><a href="../admin/reservas.html">Reservas</a></li>
-            <li><a href="../admin/habitaciones.html">Habitaciones</a></li>
-            <li><a href="../admin/empleados.html">Empleados</a></li>
+            <li><a href="../user/recepcion.php">Recepción</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle">Caja</a>
+                <ul class="dropdown-menu">
+                    <li><a href="../user/caja_apertura.php">Apertura de caja</a></li>
+                    <li><a href="../user/caja_cierre.php">Cierre de caja</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
-
     <!-- Contenido Principal -->
     <div class="main-content">
         <h1>Bienvenido al Panel de usuario.</h1>
@@ -29,5 +31,17 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script>
+        // Controla el desplegable del menú "Caja"
+        document.addEventListener("DOMContentLoaded", function() {
+            const dropdownToggle = document.querySelector(".dropdown-toggle");
+            const dropdown = document.querySelector(".dropdown");
+
+            dropdownToggle.addEventListener("click", function(e) {
+                e.preventDefault();
+                dropdown.classList.toggle("active");
+            });
+        });
+    </script>
 </body>
 </html>
