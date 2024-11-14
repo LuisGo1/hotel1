@@ -32,7 +32,8 @@
     <ul>
         <li><a href="../../hotel1/admin/index.php"><i class="fa-solid fa-hotel"></i> <span>Dashboard</span></a></li>
         <li><a href="../../hotel1/admin/check.php"><i class="fa-regular fa-pen-to-square"></i> <span>Check-In<br>Check-Out</span></a></li>
-        <li><a href="../../hotel1/admin/clientes.php"><i class="fa-solid fa-user-plus"></i> <span>Clientes</span></a></li>
+        <li><a href="../../hotel1/admin/caja.php"><i class="fa-solid fa-coins"></i> <span>Caja Diaria</span></a></li>
+        <li><a href="../../hotel1/admin/clientes.php"><i class="fa-solid fa-user-plus"></i> <span>Huespedes</span></a></li>
         <li><a href="../../hotel1/admin/reservas.php"><i class="fa-solid fa-calendar-check"></i> <span>Reservas</span></a></li>
         <li><a href="../../hotel1/admin/habitaciones.php"><i class="fa-solid fa-bed"></i><span>Habitaciones</span></a></li>
         <li><a href="../../hotel1/admin/empleados.php"><i class="fa-solid fa-user-tie"></i> <span>Empleados</span></a></li>
