@@ -21,17 +21,17 @@ include "../admin/includes/header.php";
         <tbody>
             <?php
             include("../conecction/db.php");
-            $result = mysqli_query($conexion, "SELECT cliente_id, nombre_cliente, apellido_client, telefono, email, direccion, comentarios, DATE(fecha_registro) as fecha FROM clientes;");
+            $result = mysqli_query($conexion, "SELECT cliente_id, nombre_cliente, apellido_cliente, telefono, email, direccion, comentarios, DATE(fecha_registro) as fecha FROM clientes;");
             while ($fila = mysqli_fetch_assoc($result)) :
             ?>
                 <tr>
                     <td><?php echo $fila['nombre_cliente']; ?></td>
-                    <td><?php echo $fila['apellido_client']; ?></td>
+                    <td><?php echo $fila['apellido_cliente']; ?></td>
                     <td><?php echo $fila['telefono']; ?></td>
                     <td><?php echo $fila['email']; ?></td>
                     <td><?php echo $fila['direccion']; ?></td>
                     <td><?php echo $fila['comentarios']; ?></td>
-                    <td><?php echo $fila['fecha_registro']; ?></td>
+                    <td><?php echo $fila['fecha']; ?></td>
                     <td>
                         <button class="btnEditar" data-id="<?php echo $fila['cliente_id']; ?>" onclick="editarCliente(this)">
                             <i class="fa fa-edit"></i>
@@ -46,7 +46,6 @@ include "../admin/includes/header.php";
     </table>
 
     <button id="btnNuevoCliente">Nuevo Cliente</button>
-    <a href="../admin/con_clientes/obtenercliente.php">asdas</a>
 
     <!-- Modal para agregar nuevo cliente -->
     <div id="modalCliente" class="modal">
@@ -77,8 +76,11 @@ include "../admin/includes/header.php";
         </div>
     </div>
 </div>
+</body>
 
 <script src="../js/scripts.js"></script>
+<?php include "../admin/includes/footer.php"; ?>
+
 <!-- SCRIPT PARA EL MANEJO DEL MODAL NUEVO CLIENTE -->
 <script>
     // Manejo de modal
@@ -86,112 +88,157 @@ include "../admin/includes/header.php";
     const btnNuevoCliente = document.getElementById("btnNuevoCliente");
     const btnClose = document.getElementById("btnclose");
 
-    btnNuevoCliente.onclick = function () {
+    btnNuevoCliente.onclick = function() {
         modalNuevoCliente.style.display = "block";
     };
 
-    window.onclick = function (event) {
+    window.onclick = function(event) {
         if (event.target == modalNuevoCliente) {
-            modalNuevoCliente.style.display = "none";
+            verificarYCerrarModalEdit();
         }
     };
 
+
+    btnClose.onclick = function(event) {
+        verificarYCerrarModalEdit();
+    };
+
+    function verificarYCerrarModalEdit() {
+        // Obtener los valores de los campos del formulario
+        var nombre = $('#nombreCliente').val().trim();
+        var apellidos = $('#apellidoCliente').val().trim();
+        var telefono = $('#telefonoCliente').val().trim();
+        var email= $('#emailCliente').val().trim();
+        var direccion = $('#direccionCliente').val().trim();
+        var comentarios = $('#comentariosCliente').val().trim();
+
+        // Si alguno de los campos tiene datos, mostrar advertencia antes de cerrar el modal
+        if (nombre || apellidos || telefono || email || direccion || comentarios) {
+            Swal.fire({
+                title: 'Advertencia',
+                text: 'Tienes campos llenos. ¿Estás seguro que quieres salir sin guardar?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, salir',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    limpiarCamposFormulario();
+                    modalNuevoCliente.style.display = "none";
+                    // Cerrar modal si el usuario confirma
+                }
+                // Si el usuario cancela, no hace nada y no se cierra el modal
+            });
+        } else {
+            modalNuevoCliente.style.display = "none";
+
+        }
+    }
+    function limpiarCamposFormulario() {
+        $('#nombreCliente').val('');
+        $('#apellidoCliente').val('');
+        $('#telefonoCliente').val('');
+        $('#emailCliente').val('');
+        $('#direccionCliente').val('');
+        $('#comentariosCliente').val('');
+    }
+
     // Validación del formulario antes de enviarlo
-    $(document).ready(function () {
-        $("#Guardar").click(function (e) {
+    $(document).ready(function() {
+
+        $('#Guardar').click(function(e) {
             e.preventDefault();
 
             // Capturamos los valores del formulario
-            var nombre = $("#nombreCliente").val().trim();
-            var apellido = $("#apellidoCliente").val().trim();
-            var telefono = $("#telefonoCliente").val().trim();
-            var email = $("#emailCliente").val().trim();
-            var direccion = $("#direccionCliente").val().trim();
-            var comentarios = $("#comentariosCliente").val().trim();
+            var nombre = $('#nombreCliente').val().trim();
+            var apellidos = $('#apellidoCliente').val().trim();
+            var telefono = $('#telefonoCliente').val().trim();
+            var email = $('#emailCliente').val(); // Aquí eliminamos el .trim()
+            var direccion = $('#direccionCliente').val().trim();
+            var comentarios = $('#comentariosCliente').val().trim();
 
             // Verificamos si hay algún campo vacío
-            if (
-                nombre === "" ||
-                apellido === "" ||
-                telefono === "" ||
-                email === "" ||
-                direccion === ""
-            ) {
+            if (nombre === '' || apellidos === '' || telefono === '' || email === '' || direccion === '' ) {
                 Swal.fire({
-                    title: "Error",
-                    text: "Todos los campos son obligatorios, excepto comentarios.",
-                    icon: "error",
+                    title: 'Error',
+                    text: 'Todos los campos son obligatorios',
+                    icon: 'error'
                 });
                 return;
             }
 
             // Validación del teléfono
-            var telefonoPattern = /^\d{8,15}$/;
+            var telefonoPattern = /^\d{8}$/;
             if (!telefonoPattern.test(telefono)) {
                 Swal.fire({
-                    title: "Error",
-                    text: "Ingrese un teléfono válido (entre 8 y 15 dígitos).",
-                    icon: "error",
+                    title: 'Error',
+                    text: 'Ingrese un teléfono válido',
+                    icon: 'error'
                 });
                 return;
             }
 
-            // Validación del correo
-            var correoPattern =
-                /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+
+            var correoPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
             if (!correoPattern.test(email)) {
                 Swal.fire({
-                    title: "Error",
-                    text: "Ingrese un correo electrónico válido.",
-                    icon: "error",
+                    title: 'Error',
+                    text: 'Ingrese un correo electrónico válido.',
+                    icon: 'error'
                 });
                 return;
             }
 
+            // Verificamos los datos antes de enviarlos
+            console.log("Datos a enviar:");
+            console.log("Nombre: " + nombre);
+            console.log("Apellidos: " + apellidos);
+            console.log("telefono: " + telefono);
+            console.log("Correo: " + email);
+            console.log("direccion: " + direccion);
+            console.log("comentarios: " + comentarios);
             // Realizamos la solicitud AJAX para enviar los datos al servidor
             $.ajax({
-                type: "POST",
-                url: "../admin/con_clientes/obtenercliente.php",
+                type: 'POST',
+                url: '../admin/con_clientes/agregarcliente.php',
                 data: {
-                    accion: "agregar",
                     nombre: nombre,
-                    apellido: apellido,
+                    apellidos: apellidos,
+                    email: email, // Enviamos el valor seleccionado
                     telefono: telefono,
-                    email: email,
-                    direccion: direccion,
                     comentarios: comentarios,
+                    direccion: direccion
                 },
-                success: function (data) {
-                    console.log("Respuesta del servidor:", data);
-                    const response = JSON.parse(data);
-                    if (response.success) {
-                        Swal.fire({
-                            title: "¡Éxito!",
-                            text: "Cliente agregado correctamente.",
-                            icon: "success",
-                            showConfirmButton: true,
-                        }).then(function () {
-                            window.location.reload();
-                        });
-                    } else {
-                        Swal.fire({
-                            title: "Error",
-                            text: response.error || "Ocurrió un problema.",
-                            icon: "error",
-                        });
-                    }
-                },
-                error: function (xhr, status, error) {
-                    console.log("Error en la solicitud AJAX:", xhr.responseText);
+                success: function(data) {
+                    console.log("Respuesta del servidor:");
+                    console.log(data); // Aquí puedes ver la respuesta que llega del servidor
                     Swal.fire({
-                        title: "Error",
-                        text: xhr.responseText || "No se pudo completar la solicitud.",
-                        icon: "error",
+                        title: '¡Mensaje!',
+                        text: data,
+                        icon: 'success',
+                        timer:1500,
+                        showConfirmButton: false
+                    }).then(function() {
+                        window.location = "../admin/clientes.php";
                     });
                 },
+                error: function(xhr, status, error) {
+                    console.log("Error en la solicitud AJAX:");
+                    console.log(xhr.responseText); // Aquí puedes ver el error de la solicitud
+                    Swal.fire({
+                        title: 'Error',
+                        text: xhr.responseText,
+                        icon: 'error'
+                    });
+                },
+                complete: function() {
+                    $('#Guardar').prop('disabled', false); // Habilitar el botón después de la solicitud
+                }
             });
         });
     });
+
+   
 
     // Función para eliminar cliente
     function confirmDelete(cliente_id, nombre_cliente) {
@@ -219,7 +266,9 @@ include "../admin/includes/header.php";
         $.ajax({
             type: 'GET',
             url: '../admin/consultas/obtenercliente.php',
-            data: { id: clienteId },
+            data: {
+                id: clienteId
+            },
             success: function(data) {
                 const cliente = JSON.parse(data);
 
@@ -244,7 +293,7 @@ include "../admin/includes/header.php";
                 // Mostrar el modal con los datos del cliente
                 modalNuevoCliente.style.display = "block";
             },
-            error: function (xhr, status, error) {
+            error: function(xhr, status, error) {
                 console.log("Error al obtener los datos del cliente:", xhr.responseText);
                 Swal.fire({
                     title: "Error",
@@ -256,6 +305,4 @@ include "../admin/includes/header.php";
     }
 </script>
 
-
-
-<?php include "../admin/includes/footer.php"; ?>
+</html>
