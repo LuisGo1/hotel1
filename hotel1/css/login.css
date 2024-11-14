@@ -92,6 +92,9 @@ body {
     cursor: pointer;
     box-shadow: 0 10px 10px rgba(164, 164, 164, 0.288);
 }
+.login-button:hover{
+    background-color: rgba(66, 66, 66, 0.81);
+}
 
 .additional-options {
     margin-top: 15px;
