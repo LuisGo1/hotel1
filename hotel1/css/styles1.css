@@ -1,8 +1,18 @@
 /* style.css */
+:root{
+    --blanco: #fff;
+    --fondo-pantalla:#f2f5fa;
+    --color-texto:#333;
+    --color-letra-nav:#6b6b6b;
+    --azul-fondo:#007bff;
+    --fondo-cards:#f9f9f9;
+    --color-border:#ccc;
+    --price-color:#4caf50;
+}
 body {
     font-family: Arial, sans-serif;
-    background-color: #f2f5fa;
-    color: #333;
+    background-color: var(--fondo-pantalla);
+    color: var(--color-texto);
     margin: 0;
     padding: 0;
 }
@@ -24,88 +34,145 @@ header h1 {
 }
 
 nav a {
-    color: #6b6b6b;
+    color: var(--color-letra-nav);
     text-decoration: none;
 }
 
+
+/* DISEÑO INFORMATION CARDS */
 .levels, .rooms, .info {
     display: flex;
-    gap: 10px;
-    margin-top: 20px;
+    gap: 15px;
+    margin-top: 15px;
 }
 
 .level-card, .room-card, .time-card, .categories-card {
-    background-color: #fff;
-    padding: 15px;
+    background-color: var(--blanco);
+    padding: 5px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.225);
     text-align: center;
 }
-
+.categories-card h1{
+    margin-top: 10px;
+}
+/* DISEÑO LEVELS CARDS */
 .level-card {
     flex: 1;
     font-size: 18px;
-    color: #6b6b6b;
+    color: var(--color-letra-nav);
+}
+.selected {
+    background-color: var(--azul-fondo); 
+    color: var(--blanco); 
 }
 
-.room-card {
-    width: 180px;
-}
-
-.room-card h3 {
-    margin: 0;
-    color: #4caf50;
-}
-
-.price {
-    font-weight: bold;
-    color: #4caf50;
-}
-
-.time-card, .categories-card {
-    flex: 1;
-}
-
-button {
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
+.level-card {
     cursor: pointer;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    margin: 5px;
 }
 
+.level-card:hover {
+    background-color: var(--fondo-cards);
+    color: var(--color-texto);
+}
+
+ 
+/* DISEÑO ROOM-CARDS */
+@media (max-width: 1200px) {
+    .rooms {
+        grid-template-columns: repeat(4, 1fr); 
+    }
+}
+
+@media (max-width: 900px) {
+    .rooms {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
+
+@media (max-width: 600px) {
+    .rooms {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (max-width: 400px) {
+    .rooms {
+        grid-template-columns: 1fr; 
+    }
+}
+
+
+.rooms {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 20px; 
+    padding: 0px 20px 2px 20px; 
+}
 
 .room-card {
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 5px;
-    width: 200px; /* Ajusta este ancho si es necesario */
-    max-width: 100%;
-    box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
-    font-family: Arial, sans-serif;
-    overflow: hidden; /* Previene que el contenido se desborde */
+    border: 1px solid var(--color-border);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    background-color: var(--fondo-cards);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-
-.room-card h3 {
-    display: flex;
-    align-items: center;
-    font-size: 1.5em;
-    margin: 0; /* Elimina cualquier margen superior/inferior adicional */
+.room-card h3{
+    color: var(--azul-fondo);
+    text-transform: uppercase;
 }
-
-.room-card h3 .icon-bed {
-    width: 100px; /* Ajusta el tamaño del ícono aquí */
-    height: auto;
-    margin-right: 8px;
+.room-card .price{
+    color: var(--price-color);
+    font-size: 18px;
 }
-
-.room-card p {
-    margin: 5px 0; /* Añade espacio uniforme entre párrafos */
+.room-card .descripcion{
+    line-height: 1.1;
 }
-
-.room-card .price {
+.room-card .estado{
+    margin: 5px 0px 10px 0px;
+    text-transform: uppercase;
+}
+.room-card .capacidad{
+    margin-bottom: 5px;
+}
+.room-card .estado span {
+    padding: 2px 8px;
+    border-radius: 3px;
     font-weight: bold;
-    color: #007bff;
-    font-size: 1.2em;
 }
+
+.room-card .disponible {
+    color: #28a745; 
+    border: 2px solid #28a745; 
+}
+
+.room-card .ocupado {
+    color: #dc3545; 
+    border: 2px solid #dc3545; 
+}
+
+.room-card .limpieza {
+    color: #ffc107;
+    border: 2px solid #ffc107; 
+}
+
+.room-card .mantenimiento {
+    color: #6c757d; 
+    border: 2px solid #6c757d; 
+}
+
+.room-card .reservado {
+    color: #007bff; 
+    border: 2px solid #007bff; 
+}
+
+.room-card .default {
+    color: #6c757d;
+    border: 2px solid #6c757d; 
+}
+
+
