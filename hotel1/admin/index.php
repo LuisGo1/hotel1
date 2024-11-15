@@ -160,7 +160,7 @@ include "../conecction/db.php";
 
                         
                         habitacionDiv.innerHTML = `
-            <h3>${habitacion.tipo_habitacion}</h3>
+            <h3>${habitacion.numero_habitacion} ${habitacion.tipo_habitacion}</h3>
             <p class="descripcion">${habitacion.descripcion}</p>
             <p class="capacidad">Capacidad: ${habitacion.capacidad}</p>
             <p class="estado"><span class="${estadoClass}">${habitacion.estado}</span></p>
