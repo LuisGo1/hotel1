@@ -74,3 +74,38 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
+
+.room-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    width: 200px; /* Ajusta este ancho si es necesario */
+    max-width: 100%;
+    box-sizing: border-box; /* Asegura que el padding esté incluido en el ancho total */
+    font-family: Arial, sans-serif;
+    overflow: hidden; /* Previene que el contenido se desborde */
+}
+
+.room-card h3 {
+    display: flex;
+    align-items: center;
+    font-size: 1.5em;
+    margin: 0; /* Elimina cualquier margen superior/inferior adicional */
+}
+
+.room-card h3 .icon-bed {
+    width: 100px; /* Ajusta el tamaño del ícono aquí */
+    height: auto;
+    margin-right: 8px;
+}
+
+.room-card p {
+    margin: 5px 0; /* Añade espacio uniforme entre párrafos */
+}
+
+.room-card .price {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 1.2em;
+}

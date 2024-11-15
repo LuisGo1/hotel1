@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Administrativo del Hotel</title>
-    <link rel="stylesheet" href="../../hotel1/css/style.css">
+    <link rel="stylesheet" href="../../hotel1/css/userstyle.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
 <body>
