@@ -26,20 +26,19 @@
 
     <div class="conteiner">
         <div class="contenedor-botones">
-            <div class="recepcion" >
+            <div class="recepcion" id="recepcion" onclick="redirigir('recepcion');">
                 <i class="fa-solid fa-hotel"></i>
                 <h2>Recepcion </h2>
             </div>
-            <div class="recepcion">
+            <div class="recepcion" id="apertura" onclick="redirigir('apertura');">
                 <i class="fas fa-wallet"></i>
-
                 <h2>Apertura</h2>
             </div>
-            <div class="recepcion">
+            <div class="recepcion" id="cierre" onclick="redirigir('cierre');">
                 <i class="fas fa-money-check-alt"></i>
-
                 <h2>Cierre</h2>
             </div>
+
         </div>
 
         <?php
@@ -101,5 +100,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.semanticui.js"></script>
+
+<script>
+    function redirigir(id) {
+        switch (id) {
+            case "recepcion":
+                window.location.href = "../user/recepcion.php";
+                break;
+            case "apertura":
+                window.location.href = "../user/caja_apertura.php";
+                break;
+            case "cierre":
+                window.location.href = "../user/caja_cierre.php";
+                break;
+            default:
+                console.log("Botón no definido");
+        }
+    }
+</script>
 
 </html>
