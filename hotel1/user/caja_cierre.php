@@ -2,9 +2,10 @@
 include "../user/includes/header.php";
 ?>
 
+<div class="bodycieCrrecaja">
     <div class="cierre-caja-container">
-    <h2>Cierre de Caja</h2>
-    <div class="form-group">
+      <h2>Cierre de Caja</h2>
+        <div class="form-group">
         <label for="fechaCierre">Fecha de Cierre</label>
         <input type="date" id="fechaCierre" name="fechaCierre">
     </div>
@@ -86,7 +87,11 @@ include "../user/includes/header.php";
         e.preventDefault();
         });
     });
+
+
+    
     </script>
+    
 
 </body>
 </html>

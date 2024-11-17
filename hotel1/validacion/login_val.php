@@ -16,18 +16,17 @@ if (isset($_POST['correo']) && isset($_POST['password'])) {
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
 
-        if ($row['rol'] == 'recepcionista') {
-            $_SESSION['correo'] = $correo;
-            $_SESSION['nivel_acceso'] = 'recepcionista';
-            $_SESSION['nombre_empleado'] = $row['nombre_empleado'];
+        // Guarda el ID del empleado en la sesión
+        $_SESSION['empleado_id'] = $row['empleado_id']; 
+        $_SESSION['correo'] = $correo;
+        $_SESSION['nombre_empleado'] = $row['nombre_empleado'];
 
+        if ($row['rol'] == 'recepcionista') {
+            $_SESSION['nivel_acceso'] = 'recepcionista';
             echo "../hotel1/user/recepcion.php"; 
             exit();
         } elseif ($row['rol'] == 'administrador') {
-            $_SESSION['correo'] = $correo;
             $_SESSION['nivel_acceso'] = 'administrador';
-            $_SESSION['nombre_empleado'] = $row['nombre_empleado'];
-
             echo "../hotel1/admin/index.php"; 
             exit();
         }
@@ -38,4 +37,3 @@ if (isset($_POST['correo']) && isset($_POST['password'])) {
 
 $conexion->close();
 ?>
-
