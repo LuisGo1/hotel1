@@ -151,6 +151,8 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
         }
     };
 </script>
+<!-- Incluir SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     document.getElementById("formNuevaHabitacion").addEventListener("submit", function(event) {
@@ -218,37 +220,70 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
 });
 
 function eliminarHabitacion(cuarto_id) {
+    // Usar SweetAlert para la confirmación
+    Swal.fire({
+        title: "¿Estás seguro de que quieres eliminar esta habitación?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Crear la solicitud AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "../admin/eliminarHabitacion.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    if (confirm("¿Estás seguro de que quieres eliminar esta habitación?")) {
-        
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "../admin/eliminarHabitacion.php", true);  
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("cuarto_id=" + encodeURIComponent(cuarto_id));
 
-        xhr.send("cuarto_id=" + encodeURIComponent(cuarto_id));
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        // Mostrar alerta de éxito
+                        Swal.fire({
+                            title: "¡Eliminada!",
+                            text: "Habitación eliminada con éxito.",
+                            icon: "success"
+                        });
 
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.success) {
-                    var row = document.querySelector("tr[data-cuarto-id='" + cuarto_id + "']");
-                    if (row) {
-                        row.remove();
+                        // Eliminar la fila de la tabla
+                        var row = document.querySelector("tr[data-cuarto-id='" + cuarto_id + "']");
+                        if (row) {
+                            row.remove();
+                        }
+                    } else {
+                        // Mostrar alerta de error
+                        Swal.fire({
+                            title: "Error",
+                            text: "Error al eliminar la habitación.",
+                            icon: "error"
+                        });
                     }
-                    alert("Habitación eliminada con éxito.");
                 } else {
-                    alert("Error al eliminar la habitación.");
+                    // Mostrar alerta de error en caso de fallo en la solicitud
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error en la solicitud AJAX.",
+                        icon: "error"
+                    });
                 }
-            } else {
-                alert("Error en la solicitud AJAX.");
-            }
-        };
+            };
 
-        xhr.onerror = function() {
-            alert("Error de conexión. Por favor, inténtalo de nuevo.");
-        };
-    }
+            xhr.onerror = function() {
+                // Mostrar alerta de error de conexión
+                Swal.fire({
+                    title: "Error",
+                    text: "Error de conexión. Por favor, inténtalo de nuevo.",
+                    icon: "error"
+                });
+            };
+        }
+    });
 }
+
 
 function editarHabitacion(cuarto_id) {
     console.log("Editar habitación ID:", cuarto_id);
