@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,10 +21,76 @@
         </div>
     </nav>
 </header>
+
 <body>
 
- 
-   
+    <div class="conteiner">
+        <div class="contenedor-botones">
+            <div class="recepcion" id="recepcion" onclick="redirigir('recepcion');">
+                <i class="fa-solid fa-hotel"></i>
+                <h2>Recepcion </h2>
+            </div>
+            <div class="recepcion" id="apertura" onclick="redirigir('apertura');">
+                <i class="fas fa-wallet"></i>
+                <h2>Apertura</h2>
+            </div>
+            <div class="recepcion" id="cierre" onclick="redirigir('cierre');">
+                <i class="fas fa-money-check-alt"></i>
+                <h2>Cierre</h2>
+            </div>
+
+        </div>
+
+        <?php
+        include("../conecction/db.php");
+        $sql = "SELECT 
+    COUNT(CASE WHEN estado = 'disponible' THEN 1 END) AS disponibles,
+    COUNT(CASE WHEN estado = 'ocupado' THEN 1 END) AS ocupadas,
+    COUNT(CASE WHEN estado = 'limpieza' THEN 1 END) AS en_limpieza,
+    COUNT(CASE WHEN estado = 'mantenimiento' THEN 1 END) AS en_mantenimiento,
+    COUNT(CASE WHEN estado = 'reservado' THEN 1 END) AS reservado
+    FROM habitaciones;";
+        $resultado = $conexion->query($sql);
+
+        if ($resultado->num_rows > 0): ?>
+            <section class="info">
+                <?php
+                $estado = $resultado->fetch_assoc(); ?>
+
+                <!-- Mostrar las tarjetas con los conteos -->
+                <div class="categories-card">
+                    <h3>Habitaciones Disponibles</h3>
+                    <h1><?php echo $estado['disponibles']; ?></h1>
+                </div>
+
+                <div class="categories-card">
+                    <h3>Habitaciones Ocupadas</h3>
+                    <h1><?php echo $estado['ocupadas']; ?></h1>
+                </div>
+
+                <div class="categories-card">
+                    <h3>Habitaciones en Limpieza</h3>
+                    <h1><?php echo $estado['en_limpieza']; ?></h1>
+                </div>
+
+                <div class="categories-card">
+                    <h3>Habitaciones en Mantenimiento</h3>
+                    <h1><?php echo $estado['en_mantenimiento']; ?></h1>
+                </div>
+
+                <div class="categories-card">
+                    <h3>Habitaciones Reservadas</h3>
+                    <h1><?php echo $estado['reservado']; ?></h1>
+                </div>
+
+            </section>
+        <?php else: ?>
+            <p>No hay datos disponibles.</p>
+        <?php endif;
+        $conexion->close();
+        ?>
+    </div>
+
 
 
 </body>
@@ -33,4 +100,23 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.9.2/semantic.min.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.semanticui.js"></script>
+
+<script>
+    function redirigir(id) {
+        switch (id) {
+            case "recepcion":
+                window.location.href = "../user/recepcion.php";
+                break;
+            case "apertura":
+                window.location.href = "../user/caja_apertura.php";
+                break;
+            case "cierre":
+                window.location.href = "../user/caja_cierre.php";
+                break;
+            default:
+                console.log("Botón no definido");
+        }
+    }
+</script>
+
 </html>
