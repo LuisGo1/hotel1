@@ -782,4 +782,18 @@ h1 {
         margin-top: 20px;
     }
 
+    .apertura-caja-container
+    {
+        position: fixed; /* Fija el formulario en la pantalla */
+        top: 50%; /* Lo posiciona al 50% de la altura */
+        left: 50%; /* Lo posiciona al 50% del ancho */
+        transform: translate(-50%, -50%); /* Ajusta el centro */
+        z-index: 1000; /* Asegura que esté por encima de otros elementos */
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 300px; /* Ajusta el ancho según sea necesario */
+    }
     

@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Administrativo del Hotel</title>
-    <link rel="stylesheet" href="../../hotel1/css/userstyle.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-</head>
-<body>
-    <!-- Menú Lateral -->
-    <div class="sidebar">
-        <h2>Hotel Admin Dashboard</h2>
-        <ul>
-            <li><a href="../../hotel1/user/index.php">Dashboard</a></li>
-            <li><a href="../user/recepcion.php">Recepción</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Caja</a>
-                <ul class="dropdown-menu">
-                    <li><a href="../user/caja_apertura.php">Apertura de caja</a></li>
-                    <li><a href="../user/caja_cierre.php">Cierre de caja</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<?php
+include "../user/includes/header.php";
+?>
     <!-- Contenido Principal -->
     <div class="main-content">
         <h1>Bienvenido al Panel de usuario.</h1>

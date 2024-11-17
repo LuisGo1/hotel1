@@ -1,19 +1,6 @@
-<?php include("../user/includes/header.php") ?>
-<body class="body-caja_cierre">
-<div class="sidebar">
-        <h2>Hotel Admin Dashboard</h2>
-        <ul>
-            <li><a href="../user/">Dashboard</a></li>
-            <li><a href="../user/recepcion.php">Recepción</a></li>
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle">Caja</a>
-                <ul class="dropdown-menu">
-                    <li><a href="../user/caja_apertura.php">Apertura de caja</a></li>
-                    <li><a href="../user/caja_cierre.php">Cierre de caja</a></li>
-                </ul>
-            </li>
-        </ul>
-    </div>
+<?php
+include "../user/includes/header.php";
+?>
 
     <div class="cierre-caja-container">
     <h2>Cierre de Caja</h2>

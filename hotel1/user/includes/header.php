@@ -83,7 +83,7 @@
         <li class="dropdown">
                 <a href=""><i class="fa-solid fa-coins"></i> <span>Caja</span></a>
                 <div class="dropdown-content">
-                    <a href="../user/caja_cierre.php">Apertura</a>
+                    <a href="../user/caja_apertura.php">Apertura</a>
                     <a href="../user/caja_cierre.php">Cierre</a>
                 </div>
             </li>        <!-- Línea divisoria -->
