@@ -44,13 +44,18 @@ h1 {
 }
 
 .room-container {
-    max-width: 800px; /* Ancho máximo para el contenedor */
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    max-width: 800px;
+    /* Ancho máximo para el contenedor */
+    margin: 0 auto;
+    /* Centra el contenedor horizontalmente */
     padding: 20px;
     display: flex;
-    flex-wrap: wrap; /* Permite que las habitaciones se ajusten en varias filas */
-    gap: 15px; /* Espacio entre las habitaciones */
-    justify-content: center; /* Centra las habitaciones dentro del contenedor */
+    flex-wrap: wrap;
+    /* Permite que las habitaciones se ajusten en varias filas */
+    gap: 15px;
+    /* Espacio entre las habitaciones */
+    justify-content: center;
+    /* Centra las habitaciones dentro del contenedor */
 }
 
 .room-card {
@@ -69,20 +74,24 @@ h1 {
 }
 
 .room-card.available {
-    background-color: #4CAF50; /* Verde para Disponible */
+    background-color: #4CAF50;
+    /* Verde para Disponible */
 }
 
 .room-card.occupied {
-    background-color: #f44336; /* Rojo para Ocupado */
+    background-color: #f44336;
+    /* Rojo para Ocupado */
 }
 
 .room-card.maintenance {
-    background-color: #FFC107; /* Amarillo para Mantenimiento */
+    background-color: #FFC107;
+    /* Amarillo para Mantenimiento */
     color: black;
 }
 
 .room-card.cleaning {
-    background-color: #2196F3; /* Azul para Limpieza */
+    background-color: #2196F3;
+    /* Azul para Limpieza */
 }
 
 /* DISEÑO DE LOS NIVELES */
@@ -106,50 +115,54 @@ h1 {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 /* Estilo general del modal */
 .modal {
-  display: none; /* Oculto por defecto */
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro con opacidad */
+    display: none;
+    /* Oculto por defecto */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Fondo oscuro con opacidad */
 }
 
 /* Contenido del modal */
 .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 500px;
-  border-radius: 8px;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
 }
 
 /* Botón de cerrar */
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.close:hover, .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* Estilo de los labels y campos del formulario */
 .modal-content label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
 }
 
 .modal-content input[type="text"],
@@ -158,123 +171,179 @@ h1 {
 .modal-content input[type="date"],
 .modal-content input[type="number"],
 .modal-content textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .modal-content button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .modal-content button:hover {
-  background-color: #45a049;
+    background-color: #45a049;
+}
+
+.contenedor-padre {
+    display: block;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.cierre-caja-container {
+    background-color: #fff;
+    width: 25%;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 70px;
+}
+
+/* Encabezado */
+.cierre-caja-container h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
+
+/* Campo de entrada */
+.form-group {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Botón */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+/* Tabla de resumen */
+.tabla-resumen {
+    width: 68%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-resumen table {
+    width: 100%;
+}
+
+.tabla-resumen th,
+.tabla-resumen td {
+    padding: 10px;
+    text-align: center;
+}
+
+/* Estilos de estado */
+.estado-disponible {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.estado-cerrado {
+    background-color: #FF0000;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
 
- .cierre-caja-container {
-        background-color: #fff;
-        width: 25%;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        margin-bottom: 20px;
-        margin-left: 220px;
-        margin-top: 70px;
-    }
 
-    /* Encabezado */
-    .cierre-caja-container h2 {
-        margin-top: 0;
-        font-size: 24px;
-        color: #333;
-        border-bottom: 2px solid #4CAF50;
-        padding-bottom: 10px;
-        margin-bottom: 25px;
-    }
+/* Mostrar el dropdown con animación cuando se hace hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    /* Desliza hacia su posición final */
+}
 
-    /* Campo de entrada */
-    .form-group {
-        margin-bottom: 20px;
-        margin-right: 20px;
-    }
+/* Botón */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+    /* Más espacio sobre el botón */
+}
 
-    .form-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #666;
-    }
+.submit-btn:hover {
+    background-color: #45a049;
+}
 
-    .form-group input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-    }
+.submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
 
-    /* Botón */
-    .submit-btn {
-        width: 100%;
-        padding: 15px;
-        background-color: #4CAF50;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        color: #fff;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-top: 15px;
-    }
+.submit-btn:hover:enabled {
+    background-color: #45a049;
+}
 
-    .submit-btn:hover {
-        background-color: #45a049;
-    }
 
-    /* Tabla de resumen */
-    .tabla-resumen {
-        width: 68%;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        margin-left: 220px;
-    }
-
-    .tabla-resumen table {
-        width: 100%;
-    }
-
-    .tabla-resumen th, .tabla-resumen td {
-        padding: 10px;
-        text-align: center;
-    }
-
-    /* Estilos de estado */
-    .estado-disponible {
-        background-color: #4CAF50;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-
-    .estado-cerrado {
-        background-color: #FF0000;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
+.body-caja_cierre {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
 
 /* Estilo para el dropdown */
 .dropdown {
@@ -295,505 +364,207 @@ h1 {
 
     /* Animación */
     opacity: 1;
-    transform: translateY(-10px); /* Inicia un poco desplazado hacia arriba */
+    transform: translateY(-10px);
+    /* Inicia un poco desplazado hacia arriba */
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Mostrar el dropdown con animación cuando se hace hover */
-.dropdown:hover .dropdown-menu {
-    display: block;
-    opacity: 1;
-    transform: translateY(0); /* Desliza hacia su posición final */
+/* SIDEBAR */
+
+.sidebar {
+    width: 80px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    transition: width 0.3s ease-in, background-color 0.3s;
 }
 
-        /* Botón */
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 15px; /* Más espacio sobre el botón */
-        }
+.sidebar:hover {
+    width: 220px;
+}
 
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
+.sidebar .logo-img {
+    width: 70px;
+    height: auto;
+    display: block;
+    margin: 15px 10px 0 8px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
-        .submit-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
+/* Ocultar el logo cuando la sidebar está expandida */
+.sidebar:hover .logo-img {
+    display: none;
+}
 
-        .submit-btn:hover:enabled {
-            background-color: #45a049;
-        }
-    
+.sidebar h2 {
+    text-align: center;
+    font-size: 24px;
+    display: none;
+}
 
-    .body-caja_cierre {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center; 
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-        }
-    
-        /* Contenedor de cierre de caja */
-        .cierre-caja-container {
-            background-color: #fff;
-            width: 25%;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-bottom: 20px;
-            margin-left: 220px;
-            margin-top: 70px;
-        }
-    
-        /* Encabezado */
-        .cierre-caja-container h2 {
-            margin-top: 0;
-            font-size: 24px;
-            color: #333;
-            border-bottom: 2px solid #4CAF50;
-            padding-bottom: 10px;
-            margin-bottom: 25px;
-        }
-    
-        /* Campo de entrada */
-        .form-group {
-            margin-bottom: 20px;
-            margin-right: 20px;
-        }
-    
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #666;
-        }
-    
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-    
-        /* Botón */
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 15px;
-        }
-    
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-    
-        /* Tabla de resumen */
-        .tabla-resumen {
-            width: 68%;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-left: 220px;
-        }
-    
-        .tabla-resumen table {
-            width: 100%;
-        }
-    
-        .tabla-resumen th, .tabla-resumen td {
-            padding: 10px;
-            text-align: center;
-        }
-    
-        /* Estilos de estado */
-        .estado-disponible {
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    
-        .estado-cerrado {
-            background-color: #FF0000;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    
-    /* Estilo para el dropdown */
-    .dropdown {
-        position: relative;
-    }
-    
-    /* Estilo para el menú desplegable con animación */
-    .dropdown-menu {
-        display: none;
-        position: absolute;
-        left: 100%;
-        top: 0;
-        background-color: #444;
-        min-width: 160px;
-        padding: 10px 0;
-        border-radius: 4px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-        /* Animación */
-        opacity: 1;
-        transform: translateY(-10px); /* Inicia un poco desplazado hacia arriba */
-        transition: opacity 0.3s ease, transform 0.3s ease;
-    }
-    
-    /* Mostrar el dropdown con animación cuando se hace hover */
-    .dropdown:hover .dropdown-menu {
-        display: block;
-        opacity: 1;
-        transform: translateY(0); /* Desliza hacia su posición final */
-    }
-    
-            /* Botón */
-            .submit-btn {
-                width: 100%;
-                padding: 15px;
-                background-color: #4CAF50;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                color: #fff;
-                font-weight: bold;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-                margin-top: 15px; /* Más espacio sobre el botón */
-            }
-    
-            .submit-btn:hover {
-                background-color: #45a049;
-            }
-    
-            .submit-btn:disabled {
-                background-color: #ccc;
-                cursor: not-allowed;
-            }
-    
-            .submit-btn:hover:enabled {
-                background-color: #45a049;
-            }
-        
+.sidebar:hover h2 {
+    display: block;
+}
 
-            .body_caja_apertura {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-                background-color: #f0f0f0;
-                font-family: Arial, sans-serif;
-            }
-            /* Contenedor de apertura de caja */
-            .apertura-caja-container {
-                    background-color: #fff;
-                    width: 400px;
-                    padding: 30px;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                }
-        
-                /* Encabezado */
-                .apertura-caja-container h2 {
-                    margin-top: 0;
-                    font-size: 24px;
-                    color: #333;
-                    border-bottom: 2px solid #4CAF50;
-                    padding-bottom: 10px;
-                    margin-bottom: 25px; /* Más espacio debajo del título */
-                }
-        
-                /* Campo de entrada */
-                .form-group {
-                    margin-bottom: 20px; /* Más espacio entre los campos */
-                }
-        
-                .form-group label {
-                    display: block;
-                    font-weight: bold;
-                    margin-bottom: 8px;
-                    color: #666;
-                }
-        
-                .form-group input {
-                    width: 100%;
-                    padding: 12px;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    font-size: 16px;
-                }
-        
-                /* Botón */
-                .submit-btn {
-                    width: 100%;
-                    padding: 15px;
-                    background-color: #4CAF50;
-                    border: none;
-                    border-radius: 5px;
-                    font-size: 16px;
-                    color: #fff;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                    margin-top: 15px; /* Más espacio sobre el botón */
-                }
-        
-                .submit-btn:hover {
-                    background-color: #45a049;
-                }
-        
-                .submit-btn:disabled {
-                    background-color: #ccc;
-                    cursor: not-allowed;
-                }
-        
-                .submit-btn:hover:enabled {
-                    background-color: #45a049;
-                }
-        
-                /* Estilo para el dropdown */
-        .dropdown {
-            position: relative;
-        }
-        
-        /* Estilo para el menú desplegable con animación */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            background-color: #444;
-            min-width: 160px;
-            padding: 10px 0;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        
-            /* Animación */
-            opacity: 1;
-            transform: translateY(-10px); /* Inicia un poco desplazado hacia arriba */
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        /* Mostrar el dropdown con animación cuando se hace hover */
-        .dropdown:hover .dropdown-menu {
-            display: block;
-            opacity: 1;
-            transform: translateY(0); /* Desliza hacia su posición final */
-        }
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
 
-    /* SIDEBAR */
+.sidebar ul li {
+    margin: 28px 30px;
+}
 
-    .sidebar {
-        width: 80px;
-        height: 100%;
-        background-color: #333;
-        color: white;
-        position: fixed;
-        top: 0;
-        left: 0;
-        overflow: visible; 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 1000;
-        transition: width 0.3s ease-in, background-color 0.3s;
-    }
-    .sidebar:hover {
-        width: 220px;
-    }
-    .sidebar .logo-img {
-        width: 70px; 
-        height: auto;
-        display: block; 
-        margin: 15px 10px 0 8px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-    
-    /* Ocultar el logo cuando la sidebar está expandida */
-    .sidebar:hover .logo-img {
-        display: none; 
-    }
-    .sidebar h2 {
-        text-align: center;
-        font-size: 24px;
-        display: none;
-    }
-    .sidebar:hover h2 {
-        display: block; 
-    }
-    
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .sidebar ul li {
-        margin: 28px 30px;
-    }
-    .sidebar ul li span {
-        display: none; /* Ocultar los textos de los elementos */
-        padding-left: 10px;
-    }
-    .sidebar:hover ul li span {
-        display: inline-block; /* Ocultar los textos de los elementos */
-    }
-    .sidebar ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 18px;
-        display: block;
-        padding: 10px;
-    }
-    .sidebar ul li a:hover {
-        background-color: #575757;
-    }
-    .sidebar .nav-links {
-        list-style: none;
-        padding: 0;
-        flex-grow: 1; /* Permite que esta sección ocupe el espacio central */
-    }
+.sidebar ul li span {
+    display: none;
+    /* Ocultar los textos de los elementos */
+    padding-left: 10px;
+}
 
-    .navbar {
-        width: 100%;
-        height: 80px;
-        background-color: #333;
-        color: white;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-    }
-    
-    .navbar i {
-        display: none;
-    }
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        left: 100%; 
-        top: 0;
-        background-color: #333;
-        min-width: 150px;
-        box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.2);
-        z-index: 9999; 
-        border-radius: 10px;
-    }
+.sidebar:hover ul li span {
+    display: inline-block;
+    /* Ocultar los textos de los elementos */
+}
 
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+}
 
-    .dropdown-content a:hover {
-        background-color: #333;
-        border-radius: 10px;
-    }
+.sidebar ul li a:hover {
+    background-color: #575757;
+}
 
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
+.sidebar .nav-links {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1;
+    /* Permite que esta sección ocupe el espacio central */
+}
 
-    .sidebar:not(:hover) .logout span {
-        display: none;
-    }
-    
-    /* Mostrar el texto "Cerrar Sesión" cuando la sidebar está expandida */
-    .sidebar:hover .logout span {
-        display: inline-block;
-    }
-    .sidebar .logout a:hover {
-        background-color: #575757;
-        border-radius: 5px;
-    }
-    .sidebar .bottom-section {
-        width: 100%;
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        
-    }
-    .sidebar .bottom-section li a{
-        padding: 20px;
-    }
-    .sidebar .bottom-section i{
-        margin-right: 5px;
-    }
-   
-    .sidebar .logout {
-        margin-top: 5px;
-        padding: 10px 15px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 22px;
-    }
-    
-    .sidebar .logout a {
-        color: white;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        justify-content: flex-start;
-    }
-    .sidebar hr.separate-line {
-        width: 0;
-        opacity: 0;
-        transition: width 0.3s ease, opacity 0.3s ease;
-        margin: 20px auto; /* Centra la línea divisoria */
-        border: 0.5px solid rgba(197, 197, 197, 0.808);
-    }
-    
-    /* Expansión de la línea divisoria cuando se despliega la sidebar */
-    .sidebar:hover .separate-line {
-        width: 80%; /* Ajusta según el ancho deseado */
-        opacity: 0.5;
-        margin-top: 20px;
-    }
 
-    .apertura-caja-container
-    {
-        position: fixed; /* Fija el formulario en la pantalla */
-        top: 50%; /* Lo posiciona al 50% de la altura */
-        left: 50%; /* Lo posiciona al 50% del ancho */
-        transform: translate(-50%, -50%); /* Ajusta el centro */
-        z-index: 1000; /* Asegura que esté por encima de otros elementos */
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        width: 300px; /* Ajusta el ancho según sea necesario */
-    }
-    
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #333;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.2);
+    z-index: 9999;
+    border-radius: 10px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #333;
+    border-radius: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.sidebar:not(:hover) .logout span {
+    display: none;
+}
+
+/* Mostrar el texto "Cerrar Sesión" cuando la sidebar está expandida */
+.sidebar:hover .logout span {
+    display: inline-block;
+}
+
+.sidebar .logout a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+.sidebar .bottom-section {
+    width: 100%;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.sidebar .bottom-section li a {
+    padding: 20px;
+}
+
+.sidebar .bottom-section i {
+    margin-right: 5px;
+}
+
+.sidebar .logout {
+    margin-top: 5px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.sidebar .logout a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.sidebar hr.separate-line {
+    width: 0;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    margin: 20px auto;
+    /* Centra la línea divisoria */
+    border: 0.5px solid rgba(197, 197, 197, 0.808);
+}
+
+/* Expansión de la línea divisoria cuando se despliega la sidebar */
+.sidebar:hover .separate-line {
+    width: 80%;
+    /* Ajusta según el ancho deseado */
+    opacity: 0.5;
+    margin-top: 20px;
+}
+
+.apertura-caja-container {
+    position: fixed;
+    /* Fija el formulario en la pantalla */
+    top: 50%;
+    /* Lo posiciona al 50% de la altura */
+    left: 50%;
+    /* Lo posiciona al 50% del ancho */
+    transform: translate(-50%, -50%);
+    /* Ajusta el centro */
+    z-index: 1000;
+    /* Asegura que esté por encima de otros elementos */
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    /* Ajusta el ancho según sea necesario */
+}
+

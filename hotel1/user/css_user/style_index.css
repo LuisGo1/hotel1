@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--body-background);
+    margin: 0;
+    padding: 90px;
+}
+
+:root {
+    --body-background: #f4f4f9;
+    --navbar-background: #333;
+    --white: #fff;
+    --negro:#000;
+}
+
+/* ESTILOS NAVBAR */
+.navbar {
+    width: 100%;
+    height: 90px;
+    background-color: var(--navbar-background);
+    color: var(--white);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+}
+
+.contenerdor-navbar {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+}
+
+.contenerdor-navbar img {
+    width: 75px;
+    border-radius: 50px;
+    margin: 7px 10px 7px 10px;
+}
+
+nav a i {
+    color: var(--white);
+    font-size: 28px;
+}
+
+nav a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    /* Esto asegura que el enlace tenga una altura suficiente */
+    padding: 10px;
+    /* Añade espacio alrededor del icono */
+}
+.contenerdor-navbar i{
+    font-size: 28px;
+    margin: 0px 10px 0px 10px;
+    color: var(--white);
+}
+.contenerdor-navbar i:hover{
+    color: rgb(179, 179, 179);
+}
+

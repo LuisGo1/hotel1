@@ -167,9 +167,19 @@ include "../conecction/db.php";
             <p class="price">Precio: $${habitacion.precio_noche}</p>
         `;
 
+
+        habitacionDiv.addEventListener('click', () => {
+        console.log(`Habitación clickeada: ${habitacion.cuarto_id}`);
+        
+
+
+
+
+        
+    });
                         container.appendChild(habitacionDiv);
                     });
-
+                        
 
                 } else {
                     alert('Error al obtener las habitaciones: ' + data.message);
