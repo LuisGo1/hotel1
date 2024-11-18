@@ -3,7 +3,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$database = "hoteldb2";
+$database = "hoteldb0";
 
 
 $conexion = mysqli_connect($host, $user, $password, $database);

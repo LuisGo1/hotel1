@@ -15,10 +15,11 @@ if (isset($_POST['cuarto_id'])) {
     $precio_noche = $_POST['precio_noche'];
     $estado = $_POST['estado'];
     $fecha_registro = $_POST['fecha_registro'];
+    $id_nivel = $_POST['id_nivel'];
 
     // Preparar la consulta SQL para actualizar los datos de la habitación
-    $stmt = $conexion->prepare("UPDATE habitaciones SET numero_habitacion = ?, tipo_habitacion = ?, descripcion = ?, capacidad = ?, precio_noche = ?, estado = ?, fecha_registro = ? WHERE cuarto_id = ?");
-    $stmt->bind_param("sssssssi", $numero_habitacion, $tipo_habitacion, $descripcion, $capacidad, $precio_noche, $estado, $fecha_registro, $cuarto_id);
+    $stmt = $conexion->prepare("UPDATE habitaciones SET numero_habitacion = ?, tipo_habitacion = ?, descripcion = ?, capacidad = ?, precio_noche = ?, estado = ?, fecha_registro = ?, id_nivel = ? WHERE cuarto_id = ?");
+    $stmt->bind_param("ssssssssi", $numero_habitacion, $tipo_habitacion, $descripcion, $capacidad, $precio_noche, $estado, $fecha_registro, $id_nivel, $cuarto_id);
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
