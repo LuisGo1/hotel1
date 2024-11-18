@@ -42,7 +42,9 @@ include "../admin/includes/header.php";
                         echo "<td>" . htmlspecialchars($fila['estado']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['monto_total']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['fecha_registro']) . "</td>";
-                        echo "<td>";
+                        
+                        
+                        echo "<td style='display: flex; justify-content: center; align-items: center; height: 60px; gap: 2px;' >";
                         echo "<button class='btnEditar' data-reserva-id='" . htmlspecialchars($fila['reserva_id']) . "'><i class='fa fa-edit'></i></button>";
                         echo "<button class='btnEliminar' data-reserva-id='" . htmlspecialchars($fila['reserva_id']) . "'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                         echo "</td>";
