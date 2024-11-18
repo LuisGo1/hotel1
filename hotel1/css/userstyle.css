@@ -43,47 +43,124 @@ h1 {
     margin-left: 75px;
 }
 
+/* DISEÑO HABITACIONES */
+.rooms {
+    margin-left: 240px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    box-sizing: border-box;
+}
+
 .room-container {
-    max-width: 800px; /* Ancho máximo para el contenedor */
-    margin: 0 auto; /* Centra el contenedor horizontalmente */
-    padding: 20px;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    perspective: 1000px;
+    margin-bottom: 20px;
+    margin-right: 50px;
+}
+
+/* Ambas caras de la tarjeta */
+.room-card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     display: flex;
-    flex-wrap: wrap; /* Permite que las habitaciones se ajusten en varias filas */
-    gap: 15px; /* Espacio entre las habitaciones */
-    justify-content: center; /* Centra las habitaciones dentro del contenedor */
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 10px;
+    transition: transform 0.8s ease;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(50px);
+    box-shadow: 0 8px 15px #1c1c1c56;
 }
 
-.room-card {
-    width: 150px;
-    padding: 20px;
+.room-container.disponible .room-card-face {
+    background-color: rgba(8, 142, 12, 0.373);
+    backdrop-filter: blur(10px);
+    border: 3px solid #0dc73ea9;
+}
+
+.room-container.reservado .room-card-face {
+    background-color: rgba(255, 235, 59, 0.404);
+    backdrop-filter: blur(10px);
+    border: 3px solid #ff00005a;
+}
+
+.room-container.ocupado .room-card-face {
+    background: rgba(219, 30, 16, 0.259);
+    backdrop-filter: blur(10px);
+    border: 3px solid #ff00005a;
+}
+
+.room-container.limpieza .room-card-face {
+    background-color: rgba(33, 149, 243, 0.336);
+    backdrop-filter: blur(10px);
+    border: 3px solid #0077ff5a;
+}
+
+.room-container.mantenimiento .room-card-face {
+    background-color: rgba(158, 158, 158, 0.311);
+    backdrop-filter: blur(10px);
+    border: 3px solid #3939395a;
+}
+
+.room-container.default .room-card-face {
+    background-color: rgba(240, 240, 240, 0.2);
+}
+
+.room-container .back {
+    transform: rotateY(180deg);
     text-align: center;
-    border-radius: 8px;
-    color: white;
-    font-size: 16px;
 }
 
-.room-card .room-number {
-    font-size: 18px;
+/* Efecto de rotación */
+.room-container:hover .front {
+    transform: rotateY(180deg);
+}
+
+.room-container:hover .back {
+    transform: rotateY(360deg);
+}
+
+/* Para los textos */
+.room-card-face h3,
+.room-card-face p {
+    margin: 2px 10px 0px 10px;
+    
+}
+.room-card-face .numero{
+    margin-top: -30px;
+}
+.room-card-face .tipo{
+    text-transform: uppercase;
+}
+.room-card-face .capacidad{
+    margin-top: 10px;
+}
+.room-card-face .estado{
+    margin-top: 10px;
+    text-transform: uppercase;
     font-weight: bold;
-    margin-bottom: 5px;
+}
+.room-card-face .precio{
+    margin-top: 10px;
+}
+.room-card-face .descripcion{
+    margin-top: -45px;
+}
+.room-card-face .descripcionbase{
+    margin-top: -10px;
+}
+.room-card-face .back h3,
+.room-card-face .back p {
+    margin: 20px 0;
 }
 
-.room-card.available {
-    background-color: #4CAF50; /* Verde para Disponible */
-}
-
-.room-card.occupied {
-    background-color: #f44336; /* Rojo para Ocupado */
-}
-
-.room-card.maintenance {
-    background-color: #FFC107; /* Amarillo para Mantenimiento */
-    color: black;
-}
-
-.room-card.cleaning {
-    background-color: #2196F3; /* Azul para Limpieza */
-}
 
 /* DISEÑO DE LOS NIVELES */
 
@@ -92,7 +169,7 @@ h1 {
     gap: 5px;
     padding: 20px;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     margin-left: 220px;
 }
 
@@ -101,55 +178,104 @@ h1 {
     font-size: 18px;
     color: #000000;
     background-color: #fff;
-    padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
     text-align: center;
 }
+
+.level-card {
+    flex: 1;
+    font-size: 18px;
+    color: var(--color-letra-nav);
+    
+}
+
+.selected {
+    background-color: #9a9a9a83;
+}
+
+.level-card {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    margin: 5px;
+}
+
+.level-card:hover {
+    background-color: var(--fondo-cards);
+    color: var(--color-texto);
+}
+
+
+/* ESTILO INFO RECEPCION */
+.info {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    margin-left: 240px;
+}
+.categories-card {
+    background-color: var(--blanco);
+    padding: 5px 10px 0px 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.416);
+    text-align: center;
+    margin-right: 20px;
+    
+}
+.categories-card h1{
+    margin-top: 10px;
+
+}
+
+
 /* Estilo general del modal */
 .modal {
-  display: none; /* Oculto por defecto */
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro con opacidad */
+    display: none;
+    /* Oculto por defecto */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Fondo oscuro con opacidad */
 }
 
 /* Contenido del modal */
 .modal-content {
-  background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%;
-  max-width: 500px;
-  border-radius: 8px;
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
 }
 
 /* Botón de cerrar */
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  cursor: pointer;
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.close:hover, .close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* Estilo de los labels y campos del formulario */
 .modal-content label {
-  display: block;
-  margin-top: 10px;
-  font-weight: bold;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
 }
 
 .modal-content input[type="text"],
@@ -158,28 +284,28 @@ h1 {
 .modal-content input[type="date"],
 .modal-content input[type="number"],
 .modal-content textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .modal-content button {
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .modal-content button:hover {
-  background-color: #45a049;
+    background-color: #45a049;
 }
 
-.bodycieCrrecaja{
+.bodycieCrrecaja {
     width: 100%;
     display: block;
     justify-content: center;
@@ -187,521 +313,595 @@ h1 {
     align-items: center;
 
 }
- .cierre-caja-container {
 
-        background-color: #fff;
-        width: 25%;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        margin-bottom: 20px;
-       
-      
-    }
+.cierre-caja-container {
 
-    /* Encabezado */
-    .cierre-caja-container h2 {
-        margin-top: 0;
-        font-size: 24px;
-        color: #333;
-        border-bottom: 2px solid #4CAF50;
-        padding-bottom: 10px;
-        margin-bottom: 25px;
-    }
-
-    /* Campo de entrada */
-    .form-group {
-        margin-bottom: 20px;
-        margin-right: 20px;
-    }
-
-    .form-group label {
-        display: block;
-        font-weight: bold;
-        margin-bottom: 8px;
-        color: #666;
-    }
-
-    .form-group input {
-        width: 100%;
-        padding: 12px;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-        font-size: 16px;
-    }
-
-    /* Botón */
-    .submit-btn {
-        width: 100%;
-        padding: 15px;
-        background-color: #4CAF50;
-        border: none;
-        border-radius: 5px;
-        font-size: 16px;
-        color: #fff;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-top: 15px;
-    }
-
-    .submit-btn:hover {
-        background-color: #45a049;
-    }
-
-    /* Tabla de resumen */
-    .tabla-resumen {
-        width: 68%;
-        background-color: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .tabla-resumen table {
-        width: 100%;
-    }
-
-    .tabla-resumen th, .tabla-resumen td {
-        padding: 10px;
-        text-align: center;
-    }
-
-    /* Estilos de estado */
-    .estado-disponible {
-        background-color: #4CAF50;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
-
-    .estado-cerrado {
-        background-color: #FF0000;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 5px;
-    }
+    background-color: #fff;
+    width: 25%;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
 
 
-        /* Botón */
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 15px; /* Más espacio sobre el botón */
-        }
+}
 
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
+/* Encabezado */
+.cierre-caja-container h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+}
 
-        .submit-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
+/* Campo de entrada */
+.form-group {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
 
-        .submit-btn:hover:enabled {
-            background-color: #45a049;
-        }
-    
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #666;
+}
 
-    .body-caja_cierre {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: center; 
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
-        }
-    
-    
-        /* Campo de entrada */
-        .form-group {
-            margin-bottom: 20px;
-            margin-right: 20px;
-        }
-    
-        .form-group label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 8px;
-            color: #666;
-        }
-    
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-    
-        /* Botón */
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-top: 15px;
-        }
-    
-        .submit-btn:hover {
-            background-color: #45a049;
-        }
-    
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
 
-    
-        /* Estilos de estado */
-        .estado-disponible {
-            background-color: #4CAF50;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    
-        .estado-cerrado {
-            background-color: #FF0000;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    
-            /* Botón */
-            .submit-btn {
-                width: 100%;
-                padding: 15px;
-                background-color: #4CAF50;
-                border: none;
-                border-radius: 5px;
-                font-size: 16px;
-                color: #fff;
-                font-weight: bold;
-                cursor: pointer;
-                transition: background-color 0.3s ease;
-                margin-top: 15px; /* Más espacio sobre el botón */
-            }
-    
-            .submit-btn:hover {
-                background-color: #45a049;
-            }
-    
-            .submit-btn:disabled {
-                background-color: #ccc;
-                cursor: not-allowed;
-            }
-    
-            .submit-btn:hover:enabled {
-                background-color: #45a049;
-            }
-        
+/* Botón */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
 
-            .body_caja_apertura {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-                background-color: #f0f0f0;
-                font-family: Arial, sans-serif;
-            }
-            /* Contenedor de apertura de caja */
-            .apertura-caja-container {
-                    background-color: #fff;
-                    width: 400px;
-                    padding: 30px;
-                    border-radius: 10px;
-                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-                    text-align: center;
-                }
-        
-                /* Encabezado */
-                .apertura-caja-container h2 {
-                    margin-top: 0;
-                    font-size: 24px;
-                    color: #333;
-                    border-bottom: 2px solid #4CAF50;
-                    padding-bottom: 10px;
-                    margin-bottom: 25px; /* Más espacio debajo del título */
-                }
-        
-                /* Campo de entrada */
-                .form-group {
-                    margin-bottom: 20px; /* Más espacio entre los campos */
-                }
-        
-                .form-group label {
-                    display: block;
-                    font-weight: bold;
-                    margin-bottom: 8px;
-                    color: #666;
-                }
-        
-                .form-group input {
-                    width: 100%;
-                    padding: 12px;
-                    border-radius: 5px;
-                    border: 1px solid #ccc;
-                    font-size: 16px;
-                }
-        
-                /* Botón */
-                .submit-btn {
-                    width: 100%;
-                    padding: 15px;
-                    background-color: #4CAF50;
-                    border: none;
-                    border-radius: 5px;
-                    font-size: 16px;
-                    color: #fff;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                    margin-top: 15px; /* Más espacio sobre el botón */
-                }
-        
-                .submit-btn:hover {
-                    background-color: #45a049;
-                }
-        
-                .submit-btn:disabled {
-                    background-color: #ccc;
-                    cursor: not-allowed;
-                }
-        
-                .submit-btn:hover:enabled {
-                    background-color: #45a049;
-                }
-        
-                /* Estilo para el dropdown */
-        .dropdown {
-            position: relative;
-        }
-        
-        /* Estilo para el menú desplegable con animación */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            left: 100%;
-            top: 0;
-            background-color: #444;
-            min-width: 160px;
-            padding: 10px 0;
-            border-radius: 4px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        
-            /* Animación */
-            opacity: 1;
-            transform: translateY(-10px); /* Inicia un poco desplazado hacia arriba */
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        /* Mostrar el dropdown con animación cuando se hace hover */
-        .dropdown:hover .dropdown-menu {
-            display: block;
-            opacity: 1;
-            transform: translateY(0); /* Desliza hacia su posición final */
-        }
+.submit-btn:hover {
+    background-color: #45a049;
+}
 
-    /* SIDEBAR */
+/* Tabla de resumen */
+.tabla-resumen {
+    width: 68%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
-    .sidebar {
-        width: 80px;
-        height: 100%;
-        background-color: #333;
-        color: white;
-        position: fixed;
-        top: 0;
-        left: 0;
-        overflow: visible; 
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        z-index: 1000;
-        transition: width 0.3s ease-in, background-color 0.3s;
-    }
-    .sidebar:hover {
-        width: 220px;
-    }
-    .sidebar .logo-img {
-        width: 70px; 
-        height: auto;
-        display: block; 
-        margin: 15px 10px 0 8px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-    
-    /* Ocultar el logo cuando la sidebar está expandida */
-    .sidebar:hover .logo-img {
-        display: none; 
-    }
-    .sidebar h2 {
-        text-align: center;
-        font-size: 24px;
-        display: none;
-    }
-    .sidebar:hover h2 {
-        display: block; 
-    }
-    
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .sidebar ul li {
-        margin: 28px 30px;
-    }
-    .sidebar ul li span {
-        display: none; /* Ocultar los textos de los elementos */
-        padding-left: 10px;
-    }
-    .sidebar:hover ul li span {
-        display: inline-block; /* Ocultar los textos de los elementos */
-    }
-    .sidebar ul li a {
-        color: white;
-        text-decoration: none;
-        font-size: 18px;
-        display: block;
-        padding: 10px;
-    }
-    .sidebar ul li a:hover {
-        background-color: #575757;
-    }
-    .sidebar .nav-links {
-        list-style: none;
-        padding: 0;
-        flex-grow: 1; /* Permite que esta sección ocupe el espacio central */
-    }
+.tabla-resumen table {
+    width: 100%;
+}
 
-    .navbar {
-        width: 100%;
-        height: 80px;
-        background-color: #333;
-        color: white;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-    }
-    
-    .navbar i {
-        display: none;
-    }
-    .dropdown-content {
-        display: none;
-        position: absolute;
-        left: 100%; 
-        top: 0;
-        background-color: #333;
-        min-width: 150px;
-        box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.2);
-        z-index: 9999; 
-        border-radius: 10px;
-    }
+.tabla-resumen th,
+.tabla-resumen td {
+    padding: 10px;
+    text-align: center;
+}
 
-    .dropdown-content a {
-        color: black;
-        padding: 12px 16px;
-        text-decoration: none;
-        display: block;
-    }
+/* Estilos de estado */
+.estado-disponible {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
-    .dropdown-content a:hover {
-        background-color: #333;
-        border-radius: 10px;
-    }
+.estado-cerrado {
+    background-color: #FF0000;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
-    .dropdown:hover .dropdown-content {
-        display: block;
-    }
 
-    .sidebar:not(:hover) .logout span {
-        display: none;
-    }
-    
-    /* Mostrar el texto "Cerrar Sesión" cuando la sidebar está expandida */
-    .sidebar:hover .logout span {
-        display: inline-block;
-    }
-    .sidebar .logout a:hover {
-        background-color: #575757;
-        border-radius: 5px;
-    }
-    .sidebar .bottom-section {
-        width: 100%;
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        
-    }
-    .sidebar .bottom-section li a{
-        padding: 20px;
-    }
-    .sidebar .bottom-section i{
-        margin-right: 5px;
-    }
-   
-    .sidebar .logout {
-        margin-top: 5px;
-        padding: 10px 15px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 22px;
-    }
-    
-    .sidebar .logout a {
-        color: white;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        width: 100%;
-        justify-content: flex-start;
-    }
-    .sidebar hr.separate-line {
-        width: 0;
-        opacity: 0;
-        transition: width 0.3s ease, opacity 0.3s ease;
-        margin: 20px auto; /* Centra la línea divisoria */
-        border: 0.5px solid rgba(197, 197, 197, 0.808);
-    }
-    
-    /* Expansión de la línea divisoria cuando se despliega la sidebar */
-    .sidebar:hover .separate-line {
-        width: 80%; /* Ajusta según el ancho deseado */
-        opacity: 0.5;
-        margin-top: 20px;
-    }
+/* Botón */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+    /* Más espacio sobre el botón */
+}
 
-    .apertura-caja-container
-    {
-        position: fixed; /* Fija el formulario en la pantalla */
-        top: 50%; /* Lo posiciona al 50% de la altura */
-        left: 50%; /* Lo posiciona al 50% del ancho */
-        transform: translate(-50%, -50%); /* Ajusta el centro */
-        z-index: 1000; /* Asegura que esté por encima de otros elementos */
-        background-color: #ffffff;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        text-align: center;
-        width: 300px; /* Ajusta el ancho según sea necesario */
-    }
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.submit-btn:hover:enabled {
+    background-color: #45a049;
+}
+
+
+.body-caja_cierre {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+
+/* Campo de entrada */
+.form-group {
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Botón */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+
+
+/* Estilos de estado */
+.estado-disponible {
+    background-color: #4CAF50;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.estado-cerrado {
+    background-color: #FF0000;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Botón */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+    /* Más espacio sobre el botón */
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.submit-btn:hover:enabled {
+    background-color: #45a049;
+}
+
+
+.body_caja_apertura {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+/* Contenedor de apertura de caja */
+.apertura-caja-container {
+    background-color: #fff;
+    width: 400px;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Encabezado */
+.apertura-caja-container h2 {
+    margin-top: 0;
+    font-size: 24px;
+    color: #333;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    /* Más espacio debajo del título */
+}
+
+/* Campo de entrada */
+.form-group {
+    margin-bottom: 20px;
+    /* Más espacio entre los campos */
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #666;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+/* Botón */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
+    /* Más espacio sobre el botón */
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+}
+
+.submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.submit-btn:hover:enabled {
+    background-color: #45a049;
+}
+
+/* Estilo para el dropdown */
+.dropdown1 {
+    position: relative;
+}
+
+/* Estilo para el menú desplegable con animación */
+.dropdown1-menu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #444;
+    min-width: 160px;
+    padding: 10px 0;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+    /* Animación */
+    opacity: 1;
+    transform: translateY(-10px);
+    /* Inicia un poco desplazado hacia arriba */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Mostrar el dropdown con animación cuando se hace hover */
+.dropdown1:hover .dropdown1-menu {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+    /* Desliza hacia su posición final */
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 80px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1000;
+    transition: width 0.3s ease-in, background-color 0.3s;
+}
+
+.sidebar:hover {
+    width: 220px;
+}
+
+.sidebar .logo-img {
+    width: 70px;
+    height: auto;
+    display: block;
+    margin: 15px 10px 0 8px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Ocultar el logo cuando la sidebar está expandida */
+.sidebar:hover .logo-img {
+    display: none;
+}
+
+.sidebar h2 {
+    text-align: center;
+    font-size: 24px;
+    display: none;
+}
+
+.sidebar:hover h2 {
+    display: block;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 28px 30px;
+}
+
+.sidebar ul li span {
+    display: none;
+    /* Ocultar los textos de los elementos */
+    padding-left: 10px;
+}
+
+.sidebar:hover ul li span {
+    display: inline-block;
+    /* Ocultar los textos de los elementos */
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar ul li a:hover {
+    background-color: #575757;
+}
+
+.sidebar .nav-links {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1;
+    /* Permite que esta sección ocupe el espacio central */
+}
+
+.navbar {
+    width: 100%;
+    height: 80px;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.navbar i {
+    display: none;
+}
+
+.dropdown1-content {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #333;
+    min-width: 150px;
+    box-shadow: 0px 8px 16px rgba(255, 255, 255, 0.2);
+    z-index: 9999;
+    border-radius: 10px;
+}
+
+.dropdown1-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown1-content a:hover {
+    background-color: #333;
+    border-radius: 10px;
+}
+
+.dropdown1:hover .dropdown1-content {
+    display: block;
+}
+
+.sidebar:not(:hover) .logout span {
+    display: none;
+}
+
+/* Mostrar el texto "Cerrar Sesión" cuando la sidebar está expandida */
+.sidebar:hover .logout span {
+    display: inline-block;
+}
+
+.sidebar .logout a:hover {
+    background-color: #575757;
+    border-radius: 5px;
+}
+
+.sidebar .bottom-section {
+    width: 100%;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.sidebar .bottom-section li a {
+    padding: 20px;
+}
+
+.sidebar .bottom-section i {
+    margin-right: 5px;
+}
+
+.sidebar .logout {
+    margin-top: 5px;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.sidebar .logout a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.sidebar hr.separate-line {
+    width: 0;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    margin: 20px auto;
+    border: 0.5px solid rgba(197, 197, 197, 0.808);
+}
+
+.sidebar:hover .separate-line {
+    width: 80%;
+    opacity: 0.5;
+    margin-top: 20px;
+}
+
+.apertura-caja-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+
+/* Contenedor del input con posición relativa */
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+
+/* Buscador */
+/* Estilo del input */
+#buscador {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilo para el dropdown buscador */
+.dropdown {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    max-height: 200px; 
+    overflow-y: auto; 
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: none; 
+    z-index: 1000; 
+}
+
+/* Estilo de la lista */
+#listaClientes {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#listaClientes li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#listaClientes li:hover {
+    background-color: #f0f0f0;
+}
