@@ -80,9 +80,9 @@
     <ul class="nav-links">
         <li><a href="../user/"><i class="fa-solid fa-hotel"></i> <span>Inicio</span></a></li>
         <li><a href="../user/recepcion.php"><i class="fa-solid fa-id-badge"></i> <span>Recepción</span></a></li>
-        <li class="dropdown">
+        <li class="dropdown1">
                 <a href=""><i class="fa-solid fa-coins"></i> <span>Caja</span></a>
-                <div class="dropdown-content">
+                <div class="dropdown1-content">
                     <a href="../user/caja_apertura.php">Apertura</a>
                     <a href="../user/caja_cierre.php">Cierre</a>
                 </div>

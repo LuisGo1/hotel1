@@ -169,7 +169,6 @@ $conexion->close();
     });
 
     function confirmclic(nivelId) {
-        console.log(`Nivel seleccionado: ${nivelId}`);
 
         const niveles = document.querySelectorAll('.level-card');
         niveles.forEach(nivel => {
@@ -217,7 +216,6 @@ $conexion->close();
                 }
             })
             .catch(error => {
-                console.error('Error:', error);
             });
     }
 
@@ -226,7 +224,6 @@ $conexion->close();
         const roomContainer = event.target.closest(".room-container");
         if (roomContainer) {
             const numeroHabitacion = roomContainer.getAttribute("data-numero");
-            console.log(`Número de habitación: ${numeroHabitacion}`);
 
             const modal = document.getElementById('modalAsignarCliente');
             modal.style.display = 'block';
@@ -272,11 +269,9 @@ $conexion->close();
                 if (!response.ok) {
                     throw new Error('Error en la respuesta del servidor');
                 }
-                console.log("Raw response:", response); 
                 return response.json();
             })
             .then(clientes => {
-                console.log("Datos devueltos por el servidor:", clientes); 
 
                 if (clientes.clientes.length > 0) {
                     dropdownResultados.style.display = "block";
@@ -304,7 +299,6 @@ $conexion->close();
 
             })
             .catch(error => {
-                console.error("Error al obtener los clientes:", error);
             });
     }
 

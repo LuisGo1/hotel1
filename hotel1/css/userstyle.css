@@ -623,12 +623,12 @@ h1 {
 }
 
 /* Estilo para el dropdown */
-.dropdown {
+.dropdown1 {
     position: relative;
 }
 
 /* Estilo para el menú desplegable con animación */
-.dropdown-menu {
+.dropdown1-menu {
     display: none;
     position: absolute;
     left: 100%;
@@ -647,7 +647,7 @@ h1 {
 }
 
 /* Mostrar el dropdown con animación cuando se hace hover */
-.dropdown:hover .dropdown-menu {
+.dropdown1:hover .dropdown1-menu {
     display: block;
     opacity: 1;
     transform: translateY(0);
@@ -754,7 +754,7 @@ h1 {
     display: none;
 }
 
-.dropdown-content {
+.dropdown1-content {
     display: none;
     position: absolute;
     left: 100%;
@@ -766,19 +766,19 @@ h1 {
     border-radius: 10px;
 }
 
-.dropdown-content a {
+.dropdown1-content a {
     color: black;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
 }
 
-.dropdown-content a:hover {
+.dropdown1-content a:hover {
     background-color: #333;
     border-radius: 10px;
 }
 
-.dropdown:hover .dropdown-content {
+.dropdown1:hover .dropdown1-content {
     display: block;
 }
 
