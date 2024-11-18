@@ -835,34 +835,73 @@ h1 {
     opacity: 0;
     transition: width 0.3s ease, opacity 0.3s ease;
     margin: 20px auto;
-    /* Centra la línea divisoria */
     border: 0.5px solid rgba(197, 197, 197, 0.808);
 }
 
-/* Expansión de la línea divisoria cuando se despliega la sidebar */
 .sidebar:hover .separate-line {
     width: 80%;
-    /* Ajusta según el ancho deseado */
     opacity: 0.5;
     margin-top: 20px;
 }
 
 .apertura-caja-container {
     position: fixed;
-    /* Fija el formulario en la pantalla */
     top: 50%;
-    /* Lo posiciona al 50% de la altura */
     left: 50%;
-    /* Lo posiciona al 50% del ancho */
     transform: translate(-50%, -50%);
-    /* Ajusta el centro */
     z-index: 1000;
-    /* Asegura que esté por encima de otros elementos */
     background-color: #ffffff;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 300px;
-    /* Ajusta el ancho según sea necesario */
+}
+
+
+/* Contenedor del input con posición relativa */
+.input-container {
+    position: relative;
+    width: 100%;
+}
+
+
+/* Buscador */
+/* Estilo del input */
+#buscador {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilo para el dropdown buscador */
+.dropdown {
+    position: absolute;
+    top: 100%; 
+    left: 0;
+    width: 100%;
+    max-height: 200px; 
+    overflow-y: auto; 
+    border: 1px solid #ccc;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    display: none; 
+    z-index: 1000; 
+}
+
+/* Estilo de la lista */
+#listaClientes {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#listaClientes li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#listaClientes li:hover {
+    background-color: #f0f0f0;
 }
