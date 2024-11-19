@@ -87,7 +87,7 @@ $conexion->close();
 <div id="modalAsignarCliente" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>
-        <h2>Asignar Cliente a Habitación <span id="numeroHabitacion"></span></h2>
+        <h2>Asignar Cliente a Habitación <span id="numeroHabitacion"></span><span id="id_habitacion"></span></h2>
         <div class="swipe-padre">
             <div class="swipe-container" id="swipeContainer">
                 <button class="swipe-button registro" id="">Registro</button>
@@ -262,6 +262,7 @@ $conexion->close();
                         const roomContainer = document.createElement('div');
                         roomContainer.classList.add('room-container', getEstadoClass(habitacion.estado));
                         roomContainer.setAttribute('data-numero', habitacion.numero_habitacion); // Atributo con el número
+                        roomContainer.setAttribute('data_idcuarto',habitacion.cuarto_id);
 
                         roomContainer.innerHTML = `
                             <div class="room-card-face front">
@@ -286,17 +287,21 @@ $conexion->close();
             .catch(error => {});
     }
 
+    let id_habitacion = null;
     // Detectar clic en cualquier room-container y abrir modal
     document.addEventListener("click", function(event) {
         const roomContainer = event.target.closest(".room-container");
         if (roomContainer) {
             const numeroHabitacion = roomContainer.getAttribute("data-numero");
+             id_habitacion = roomContainer.getAttribute("data_idcuarto");
+            
 
             const modal = document.getElementById('modalAsignarCliente');
             modal.style.display = 'block';
 
             document.getElementById('numeroHabitacion').textContent = numeroHabitacion;
             document.getElementById('numeroHabitacion1').textContent = numeroHabitacion;
+
         }
     });
 
@@ -381,19 +386,28 @@ $conexion->close();
     });
 
     // ENVIAR REGISTRO
+    var empleadoId = <?php echo $_SESSION['empleado_id']; ?>;
     $('#submit').click(function(e) {
             e.preventDefault(); // Evita el comportamiento por defecto del formulario
-
+            console.log("id_empleado",empleadoId);
+            console.log("id_habitacion", id_habitacion);
             // Recoger los datos del formulario
+            
             var nombre = $('#nombre').val().trim();
             var apellidos = $('#apellido').val().trim();
             var correo = $('#email').val().trim();
             var telefono = $('#telefono').val().trim();
             var direccion = $('#direccion').val().trim();
             var cantidad = $('#cantidadP').val().trim();
+            console.log("id_empleado",nombre);
+            console.log("id_empleado",apellidos);
+            console.log("id_empleado",correo);
+            console.log("id_empleado",telefono);
+            console.log("id_empleado",direccion);
+            console.log("id_empleado",cantidad);
 
             // Verificamos si algún campo obligatorio está vacío
-            if (nombre === '' || apellidos === '' || correo === '' || telefono === '' || direccion === '' || cantidad ==='') {
+            if ( nombre === '' || apellidos === '' || correo === '' || telefono === '' || direccion === '' || cantidad ==='') {
                 Swal.fire({
                     title: 'Error',
                     text: 'Todos los campos son obligatorios',
@@ -405,32 +419,33 @@ $conexion->close();
             // Realizar la solicitud AJAX para actualizar los datos en el servidor
             $.ajax({
                 type: 'POST',
-                url: '../admin/consultas/actualizarEmpleado.php', // Ruta al archivo PHP que manejará el update
+                url: '../user/consultas/insercioncheck.php', // Ruta al archivo PHP que manejará el update
                 data: {
                     id: empleadoId, // ID del empleado que se va a actualizar
+                    id_cuarto:id_habitacion,
                     nombre: nombre,
                     apellidos: apellidos,
                     correo: correo,
-                    rol: rol,
                     telefono: telefono,
-                    password: password, // La contraseña solo se actualizará si se ha introducido un nuevo valor
-                    estado: estado, // La contraseña solo se actualizará si se ha introducido un nuevo valor
-                    fechaIngreso: fechaIngreso // La fecha no se edita, solo se envía tal como está
-                },
+                    direccion: direccion, // La contraseña solo se actualizará si se ha introducido un nuevo valor
+                    cantidad: cantidad, // La contraseña solo se actualizará si se ha introducido un nuevo valor
+
+                    
+
+                }, 
+                
                 success: function(data) {
-                    // Verificamos la respuesta del servidor
+                    console.log("respuest",data);
                     const response = JSON.parse(data);
                     if (response.success) {
                         Swal.fire({
                             title: 'Éxito',
-                            text: 'Empleado actualizado correctamente',
+                            text: 'Datos Guardados correctamente',
                             timer: 1500,
                             showConfirmButton: false,
                             icon: 'success'
                         }).then(function() {
-                            // Cerrar el modal y recargar la página o realizar otras acciones
-                            $('#modalEditarEmpleado').hide();
-                            window.location.reload(); // Recargar la página
+                            window.location.reload(); 
                         });
                     } else {
                         Swal.fire({
@@ -441,10 +456,10 @@ $conexion->close();
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.log('Error al actualizar los datos del empleado:', xhr.responseText);
+                    console.log('Error al actualizar los datos:', xhr.responseText);
                     Swal.fire({
                         title: 'Error',
-                        text: 'Hubo un problema al actualizar los datos del empleado.',
+                        text: 'Hubo un problema al actualizar los datos.',
                         icon: 'error'
                     });
                 }
