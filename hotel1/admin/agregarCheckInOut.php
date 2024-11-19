@@ -1,6 +1,9 @@
 <?php
 include("../conecction/db.php");
 
+// Configurar la respuesta como JSON
+header('Content-Type: application/json');
+
 // Verificar que todos los campos se hayan enviado
 if (isset($_POST['fecha_check_in'], $_POST['fecha_check_out'], $_POST['id_reserva'], $_POST['id_cliente'], $_POST['estado'], $_POST['id_habitacion'], $_POST['cant_dias'], $_POST['id_empleado'])) {
     $fecha_check_in = $_POST['fecha_check_in'];

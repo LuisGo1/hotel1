@@ -177,6 +177,7 @@ window.onclick = (event) => {
 };
 
 // Manejo de envío de formulario AJAX
+// Manejo de envío de formulario AJAX
 document.getElementById("formNuevoCheckInOut").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -204,7 +205,12 @@ document.getElementById("formNuevoCheckInOut").addEventListener("submit", functi
             xhr.open("POST", "getHabitacionId.php", true); // Archivo PHP que devuelve el ID
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
+            // Añadir un console.log para depurar la solicitud AJAX
+            console.log("Enviando solicitud para obtener ID de habitación...");
+
             xhr.onload = function () {
+                console.log("Respuesta de getHabitacionId.php recibida: ", xhr.responseText);
+
                 if (xhr.status === 200) {
                     const response = JSON.parse(xhr.responseText);
                     if (response.success) {
@@ -216,7 +222,12 @@ document.getElementById("formNuevoCheckInOut").addEventListener("submit", functi
                         xhrAgregar.open("POST", "agregarCheckInOut.php", true);
                         xhrAgregar.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
+                        // Añadir un console.log para depurar la solicitud AJAX de agregar
+                        console.log("Enviando solicitud para agregar nuevo registro...");
+
                         xhrAgregar.onload = function () {
+                            console.log("Respuesta de agregarCheckInOut.php recibida: ", xhrAgregar.responseText);
+
                             if (xhrAgregar.status === 200) {
                                 const responseAgregar = JSON.parse(xhrAgregar.responseText);
                                 if (responseAgregar.success) {
