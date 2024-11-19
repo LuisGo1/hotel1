@@ -18,6 +18,7 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
                 <th >Precio Noche</th>
                 <th>Estado</th>
                 <th>Fecha de Registro</th>
+                <th>Nivel de la habitacion</th>
                 <th >Acciones</th>
             </tr>
         </thead>
@@ -25,7 +26,7 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
             <?php
                 include("../conecction/db.php");
                 // Consulta para obtener las habitaciones ya registradas
-                $consulta = $conexion->query("SELECT cuarto_id, numero_habitacion, tipo_habitacion, descripcion, capacidad, precio_noche, estado, fecha_registro FROM habitaciones");
+                $consulta = $conexion->query("SELECT cuarto_id, numero_habitacion, tipo_habitacion, descripcion, capacidad, precio_noche, estado, fecha_registro, id_nivel FROM habitaciones");
 
                 // Dentro del bucle while donde generas las filas de la tabla
                 while ($fila = $consulta->fetch_assoc()) {
@@ -38,6 +39,8 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
                     echo "<td style='style='text-align: center;'>$" . htmlspecialchars($fila['precio_noche']) . "</td>";
                     echo "<td>" . htmlspecialchars($fila['estado']) . "</td>";
                     echo "<td>" . htmlspecialchars($fila['fecha_registro']) . "</td>";
+                    echo "<td>" . htmlspecialchars($fila['id_nivel']) . "</td>";
+
                     echo "<td style='display: flex; justify-content: center; align-items: center; height: 60px; gap: 2px;' >";
                     echo "<button class='btnEditar' onclick='editarHabitacion(" . htmlspecialchars($fila['cuarto_id']) . ")'> <i class='fa fa-edit'></i></button>";
                     echo "<button class='btnEliminar' style='width: 60px;' onclick='eliminarHabitacion(" . htmlspecialchars($fila['cuarto_id']) . ")'><i class='fa fa-trash' aria-hidden='true'></i></button>";
@@ -83,6 +86,8 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
                 </select>
                 <label for="fechaRegistro">Fecha de Registro:</label>
                 <input type="date" id="fechaRegistro" name="fecha_registro" required />
+                <label for="nivel">Nivel de la Habitacion:</label>
+                <input type="number" id="nivel" name="nivel" required />
                 <button type="submit">Guardar</button>
             </form>
 
@@ -123,7 +128,11 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
                     <option value="limpieza">En Limpieza</option>
                     <option value="mantenimiento">Mantenimiento</option>
                 </select>
+                <label for="fechaRegistroEditar">Fecha de Registro:</label>
+                <input type="date" id="fechaRegistroEditar" name="fecha_registro" required />
 
+                <label for="nivelEditar">Nivel de la Habitacion:</label>
+                <input type="number" id="nivelEditar" name="id_nivel" required />
 
                 <button type="submit">Guardar cambios</button>
             </form>
@@ -134,6 +143,9 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
 </div>
 
 <script src="../js/scripts.js"></script>
+
+
+
 <script>
     const modalaggHabitacion = document.getElementById("modalHabitacion");
     const btnAggHabitacion = document.getElementById("btnNuevaHabitacion");
@@ -154,71 +166,82 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
 <!-- Incluir SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
 <script>
-    document.getElementById("formNuevaHabitacion").addEventListener("submit", function(event) {
-    event.preventDefault(); 
 
-    var numeroHabitacion = document.getElementById("numeroHabitacion").value;
-    var tipoHabitacion = document.getElementById("tipoHabitacion").value;
-    var descripcion = document.getElementById("descripcion").value;
-    var capacidad = document.getElementById("capacidad").value;
-    var precioHabitacion = document.getElementById("precioHabitacion").value;
-    var estadoHabitacion = document.getElementById("estadoHabitacion").value;
-    var fechaRegistro = document.getElementById("fechaRegistro").value;
+document.getElementById("formNuevaHabitacion").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-    var submitButton = document.querySelector("#formNuevaHabitacion button[type='submit']");
-    submitButton.disabled = true;
+    // Obtener los valores del formulario
+    const numeroHabitacion = document.getElementById("numeroHabitacion").value;
+    const tipoHabitacion = document.getElementById("tipoHabitacion").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const capacidad = document.getElementById("capacidad").value;
+    const precioHabitacion = document.getElementById("precioHabitacion").value;
+    const estadoHabitacion = document.getElementById("estadoHabitacion").value;
+    const fechaRegistro = document.getElementById("fechaRegistro").value;
+    const nivel = document.getElementById("nivel").value;
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "agregarHabitacion.php", true);
+    // Crear la solicitud AJAX
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "../admin/agregarHabitacion.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-    xhr.send("numero_habitacion=" + encodeURIComponent(numeroHabitacion) + 
-             "&tipo_habitacion=" + encodeURIComponent(tipoHabitacion) + 
-             "&descripcion=" + encodeURIComponent(descripcion) +
-             "&capacidad=" + encodeURIComponent(capacidad) + 
-             "&precio_noche=" + encodeURIComponent(precioHabitacion) +
-             "&estado=" + encodeURIComponent(estadoHabitacion) +
-             "&fecha_registro=" + encodeURIComponent(fechaRegistro));
+    const data = `numero_habitacion=${encodeURIComponent(numeroHabitacion)}&tipo_habitacion=${encodeURIComponent(tipoHabitacion)}&descripcion=${encodeURIComponent(descripcion)}&capacidad=${encodeURIComponent(capacidad)}&precio_noche=${encodeURIComponent(precioHabitacion)}&estado=${encodeURIComponent(estadoHabitacion)}&fecha_registro=${encodeURIComponent(fechaRegistro)}&nivel=${encodeURIComponent(nivel)}`;
 
+    xhr.send(data);
 
     xhr.onload = function() {
-        submitButton.disabled = false; 
-        if (xhr.status == 200) {
-            var response = JSON.parse(xhr.responseText);
+        if (xhr.status === 200) {
+            const response = JSON.parse(xhr.responseText);
+
             if (response.success) {
-                modalaggHabitacion.style.display = "none";
-                
-                document.getElementById("formNuevaHabitacion").reset();
-                
-                var nuevaFila = document.createElement("tr");
-                nuevaFila.innerHTML = "<td>" + response.cuarto_id + "</td>" +
-                                      "<td>" + response.numero_habitacion + "</td>" + 
-                                      "<td>" + tipoHabitacion + "</td>" + 
-                                      "<td>" + descripcion + "</td>" +
-                                      "<td>" + capacidad + "</td>" +  
-                                      "<td>$" + precioHabitacion + "</td>" + 
-                                      "<td>" + estadoHabitacion + "</td>" + 
-                                      "<td>" + fechaRegistro + "</td>" + 
-                                      "<td>" +
-                                          "<button class='btnEditar' onclick='editarHabitacion(" + response.cuarto_id + ")'>Editar</button>" +
-                                          "<button class='btnEliminar' onclick='eliminarHabitacion(" + response.cuarto_id + ")'>Eliminar</button>" +
-                                      "</td>";
+                Swal.fire("Éxito", "Habitación agregada correctamente.", "success");
+
+                // Agregar la nueva fila a la tabla
+                const nuevaFila = document.createElement("tr");
+                nuevaFila.setAttribute("data-cuarto-id", response.data.cuarto_id);
+
+                nuevaFila.innerHTML = `
+                    <td>${response.data.cuarto_id}</td>
+                    <td>${response.data.numero_habitacion}</td>
+                    <td>${response.data.tipo_habitacion}</td>
+                    <td>${response.data.descripcion}</td>
+                    <td>${response.data.capacidad}</td>
+                    <td style="text-align: center;">$${response.data.precio_noche}</td>
+                    <td>${response.data.estado}</td>
+                    <td>${response.data.fecha_registro}</td>
+                    <td>${response.data.id_nivel}</td>
+                    <td style="display: flex; justify-content: center; align-items: center; height: 60px; gap: 2px;">
+                        <button class='btnEditar' onclick='editarHabitacion(${response.data.cuarto_id})'> <i class='fa fa-edit'></i></button>
+                        <button class='btnEliminar' style='width: 60px;' onclick='eliminarHabitacion(${response.data.cuarto_id})'><i class='fa fa-trash' aria-hidden='true'></i></button>
+                    </td>
+                `;
+
                 document.querySelector("#tablaCheckInOut tbody").appendChild(nuevaFila);
+
+                // Cerrar el modal
+                document.getElementById("modalHabitacion").style.display = "none";
+
+                // Resetear el formulario
+                document.getElementById("formNuevaHabitacion").reset();
             } else {
-                alert("Error al agregar la habitación.");
+                Swal.fire("Error", response.message, "error");
             }
         } else {
-            alert("Error en la solicitud AJAX.");
+            Swal.fire("Error", "No se pudo agregar la habitación.", "error");
         }
     };
 
     xhr.onerror = function() {
-        submitButton.disabled = false; 
-        alert("Error de conexión. Por favor, inténtalo de nuevo.");
+        Swal.fire("Error", "Hubo un problema con la conexión.", "error");
     };
 });
 
+</script>
+
+
+<script>
 function eliminarHabitacion(cuarto_id) {
     // Usar SweetAlert para la confirmación
     Swal.fire({
@@ -303,6 +326,8 @@ function editarHabitacion(cuarto_id) {
                     document.getElementById("capacidadEditar").value = response.data.capacidad;
                     document.getElementById("precioHabitacionEditar").value = response.data.precio_noche;
                     document.getElementById("estadoHabitacionEditar").value = response.data.estado;
+                    document.getElementById("fechaRegistroEditar").value = response.data.fecha_registro;
+                    document.getElementById("nivelEditar").value = response.data.id_nivel;
                     document.getElementById("modalEditarHabitacion").style.display = "block";
                 } else {
                     alert("Error al obtener los datos de la habitación.");
@@ -333,6 +358,8 @@ document.getElementById("formEditarHabitacion").addEventListener("submit", funct
     var capacidad = document.getElementById("capacidadEditar").value;
     var precioHabitacion = document.getElementById("precioHabitacionEditar").value;
     var estadoHabitacion = document.getElementById("estadoHabitacionEditar").value;
+    var fechaRegistro = document.getElementById("fechaRegistroEditar").value;
+    var nivel = document.getElementById("nivelEditar").value;
 
     // Realizar la solicitud AJAX para actualizar la habitación
     var xhr = new XMLHttpRequest();
@@ -341,21 +368,26 @@ document.getElementById("formEditarHabitacion").addEventListener("submit", funct
 
     // Enviar los datos del formulario
     xhr.send("cuarto_id=" + encodeURIComponent(cuarto_id) + 
-             "&numero_habitacion=" + encodeURIComponent(numeroHabitacion) + 
-             "&tipo_habitacion=" + encodeURIComponent(tipoHabitacion) + 
-             "&descripcion=" + encodeURIComponent(descripcion) + 
-             "&capacidad=" + encodeURIComponent(capacidad) + 
-             "&precio_noche=" + encodeURIComponent(precioHabitacion) + 
-             "&estado=" + encodeURIComponent(estadoHabitacion) + 
-             "&fecha_registro=" + encodeURIComponent(fechaRegistro));
+         "&numero_habitacion=" + encodeURIComponent(numeroHabitacion) + 
+         "&tipo_habitacion=" + encodeURIComponent(tipoHabitacion) + 
+         "&descripcion=" + encodeURIComponent(descripcion) + 
+         "&capacidad=" + encodeURIComponent(capacidad) + 
+         "&precio_noche=" + encodeURIComponent(precioHabitacion) + 
+         "&estado=" + encodeURIComponent(estadoHabitacion) + 
+         "&fecha_registro=" + encodeURIComponent(fechaRegistro) + 
+         "&id_nivel=" + encodeURIComponent(nivel));
 
-    // Manejar la respuesta del servidor
-    xhr.onload = function() {
-        if (xhr.status == 200) {
-            var response = JSON.parse(xhr.responseText);
-            if (response.success) {
-                alert("Habitación actualizada con éxito.");
-
+xhr.onload = function() {
+    if (xhr.status == 200) {
+        var response = JSON.parse(xhr.responseText);
+        if (response.success) {
+            // Usando SweetAlert2 para mostrar el éxito
+            Swal.fire({
+                title: '¡Éxito!',
+                text: 'Habitación actualizada con éxito.',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            }).then(() => {
                 // Cerrar el modal
                 cerrarModalEditar();
 
@@ -369,14 +401,29 @@ document.getElementById("formEditarHabitacion").addEventListener("submit", funct
                     row.children[5].textContent = "$" + precioHabitacion;
                     row.children[6].textContent = estadoHabitacion;
                     row.children[7].textContent = fechaRegistro;
+                    row.children[8].textContent = nivel;
                 }
-            } else {
-                alert("Error al actualizar la habitación.");
-            }
+            });
         } else {
-            alert("Error en la solicitud AJAX.");
+            // Usando SweetAlert2 para mostrar el error
+            Swal.fire({
+                title: '¡Error!',
+                text: 'Hubo un problema al actualizar la habitación.',
+                icon: 'error',
+                confirmButtonText: 'Intentar nuevamente'
+            });
         }
-    };
+    } else {
+        // Usando SweetAlert2 para mostrar un error general
+        Swal.fire({
+            title: '¡Error!',
+            text: 'Error en la solicitud AJAX.',
+            icon: 'error',
+            confirmButtonText: 'Aceptar'
+        });
+    }
+};
+
 });
 
 </script>

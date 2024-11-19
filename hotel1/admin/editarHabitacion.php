@@ -10,7 +10,7 @@ if (isset($_GET['cuarto_id'])) {
     $cuarto_id = $_GET['cuarto_id'];
 
     // Preparar la consulta SQL para obtener los datos de la habitación
-    $stmt = $conexion->prepare("SELECT cuarto_id, numero_habitacion, tipo_habitacion, descripcion, capacidad, precio_noche, estado, fecha_registro FROM habitaciones WHERE cuarto_id = ?");
+    $stmt = $conexion->prepare("SELECT cuarto_id, numero_habitacion, tipo_habitacion, descripcion, capacidad, precio_noche, estado, fecha_registro, id_nivel FROM habitaciones WHERE cuarto_id = ?");
     $stmt->bind_param("i", $cuarto_id);
     $stmt->execute();
     $result = $stmt->get_result();

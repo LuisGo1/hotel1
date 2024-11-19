@@ -1,6 +1,7 @@
 <?php
 include "../admin/includes/header.php";
 ?>
+
     <div class="main-content">
         <h1>Reservas</h1>
 
@@ -21,18 +22,29 @@ include "../admin/includes/header.php";
             <tbody id="reservasData">
                 <?php
                     include("../conecction/db.php");
-                    $consulta = $conexion->query("SELECT reserva_id, id_cliente, cuarto_id, num_huespedes, comentarios, estado, monto_total, fecha_registro FROM reservas");
+                    
+                    // Consulta para obtener los datos de la reserva junto con el número de habitación
+                    $consulta = $conexion->query("
+                        SELECT reservas.reserva_id, reservas.id_cliente, reservas.cuarto_id, 
+                               reservas.num_huespedes, reservas.comentarios, reservas.estado, 
+                               reservas.monto_total, reservas.fecha_registro, habitaciones.numero_habitacion 
+                        FROM reservas
+                        JOIN habitaciones ON reservas.cuarto_id = habitaciones.cuarto_id
+                    ");
+                    
                     while ($fila = $consulta->fetch_assoc()) {
                         echo "<tr data-reserva-id='" . htmlspecialchars($fila['reserva_id']) . "'>";
                         echo "<td>" . htmlspecialchars($fila['reserva_id']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['id_cliente']) . "</td>";
-                        echo "<td>" . htmlspecialchars($fila['cuarto_id']) . "</td>";
+                        echo "<td>" . htmlspecialchars($fila['numero_habitacion']) . "</td>"; // Cambiado para mostrar el número de habitación
                         echo "<td>" . htmlspecialchars($fila['num_huespedes']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['comentarios']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['estado']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['monto_total']) . "</td>";
                         echo "<td>" . htmlspecialchars($fila['fecha_registro']) . "</td>";
-                        echo "<td>";
+                        
+                        
+                        echo "<td style='display: flex; justify-content: center; align-items: center; height: 60px; gap: 2px;' >";
                         echo "<button class='btnEditar' data-reserva-id='" . htmlspecialchars($fila['reserva_id']) . "'><i class='fa fa-edit'></i></button>";
                         echo "<button class='btnEliminar' data-reserva-id='" . htmlspecialchars($fila['reserva_id']) . "'><i class='fa fa-trash' aria-hidden='true'></i></button>";
                         echo "</td>";
@@ -84,8 +96,8 @@ include "../admin/includes/header.php";
                     <input type="hidden" id="editReservaId" /> <!-- ID de reserva oculta -->
                     <label for="editClienteid">Numero de Cliente:</label>
                     <input type="number" id="editClienteid" required />
-                    <label for="editCuartoid">Numero de Cuarto:</label>
-                    <input type="number" id="editCuartoid" required />
+                    <label for="editNumeroHabitacion">Numero de Cuarto:</label>
+                    <input type="number" id="editNumeroHabitacion" required />
                     <label for="editNumerohuespedes">Numero de Huespedes:</label>
                     <input type="number" id="editNumerohuespedes" required />
                     <label for="editComentarios">Comentarios:</label>
@@ -128,7 +140,7 @@ include "../admin/includes/header.php";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function() {
     // Obtener los elementos del modal de edición
     const modalEditarReserva = document.getElementById("modalEditarReserva");
     const closeEditar = modalEditarReserva.querySelector(".close");
@@ -150,7 +162,7 @@ include "../admin/includes/header.php";
             // Rellenar los campos del formulario de edición con los datos existentes
             document.getElementById("editReservaId").value = reservaId;
             document.getElementById("editClienteid").value = datos[1].innerText;
-            document.getElementById("editCuartoid").value = datos[2].innerText;
+            document.getElementById("editNumeroHabitacion").value = datos[2].innerText; // Número de habitación
             document.getElementById("editNumerohuespedes").value = datos[3].innerText;
             document.getElementById("editComentarios").value = datos[4].innerText;
             document.getElementById("editEstado").value = datos[5].innerText;
@@ -176,43 +188,72 @@ document.getElementById("formEditarReserva").addEventListener("submit", function
     // Capturamos los datos del formulario de edición
     const reservaId = document.getElementById("editReservaId").value;
     const clienteid = document.getElementById("editClienteid").value;
-    const cuartoid = document.getElementById("editCuartoid").value;
+    const numeroHabitacion = document.getElementById("editNumeroHabitacion").value; // Número de habitación ingresado
     const numerohuespedes = document.getElementById("editNumerohuespedes").value;
     const comentarios = document.getElementById("editComentarios").value;
     const estado = document.getElementById("editEstado").value;
     const montototal = document.getElementById("editMontototal").value;
     const fecha = document.getElementById("editFecha").value;
 
-    // Enviar datos modificados al servidor con AJAX
-    fetch('editarReserva.php', {
+    // Buscar el ID de la habitación a partir del número de habitación
+    fetch('obtenerCuartoId.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },
-        body: `reserva_id=${reservaId}&clienteid=${clienteid}&cuartoid=${cuartoid}&numerohuespedes=${numerohuespedes}&comentarios=${comentarios}&estado=${estado}&montototal=${montototal}&fecha=${fecha}`
+        body: `numero_habitacion=${numeroHabitacion}` // Enviar el número de habitación
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Actualizar la tabla si la edición fue exitosa
-            const fila = document.querySelector(`tr[data-reserva-id="${reservaId}"]`);
-            fila.querySelectorAll('td')[1].innerText = clienteid;
-            fila.querySelectorAll('td')[2].innerText = cuartoid;
-            fila.querySelectorAll('td')[3].innerText = numerohuespedes;
-            fila.querySelectorAll('td')[4].innerText = comentarios;
-            fila.querySelectorAll('td')[5].innerText = estado;
-            fila.querySelectorAll('td')[6].innerText = montototal;
-            fila.querySelectorAll('td')[7].innerText = fecha;
+            const cuartoid = data.cuarto_id; // Obtener el ID de la habitación
 
-            modalEditarReserva.style.display = "none";
-            alert('Reserva editada correctamente');
+            // Ahora enviar los datos con el ID de la habitación
+            fetch('editarReserva.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `reserva_id=${reservaId}&clienteid=${clienteid}&cuartoid=${cuartoid}&numerohuespedes=${numerohuespedes}&comentarios=${comentarios}&estado=${estado}&montototal=${montototal}&fecha=${fecha}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Mostrar alerta de éxito con SweetAlert
+                    Swal.fire("Éxito", "Reserva editada correctamente.", "success");
+
+                    // Actualizar la tabla si la edición fue exitosa
+                    const fila = document.querySelector(`tr[data-reserva-id="${reservaId}"]`);
+                    if (fila) {
+                        fila.querySelectorAll('td')[1].innerText = clienteid;
+                        fila.querySelectorAll('td')[2].innerText = numeroHabitacion; // Mostrar número de habitación
+                        fila.querySelectorAll('td')[3].innerText = numerohuespedes;
+                        fila.querySelectorAll('td')[4].innerText = comentarios;
+                        fila.querySelectorAll('td')[5].innerText = estado;
+                        fila.querySelectorAll('td')[6].innerText = montototal;
+                        fila.querySelectorAll('td')[7].innerText = fecha;
+                    }
+
+                    // Cerrar el modal de edición
+                    modalEditarReserva.style.display = "none";
+                } else {
+                    // Mostrar alerta de error con SweetAlert
+                    Swal.fire("Error", "Error al editar la reserva: " + data.error, "error");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Mostrar alerta de error de solicitud con SweetAlert
+                Swal.fire("Error", "Error al editar la reserva.", "error");
+            });
         } else {
-            alert('Error al editar la reserva: ' + data.error);
+            // Si no se encuentra el número de habitación
+            Swal.fire("Error", "No se encontró el número de habitación.", "error");
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error al editar la reserva');
+        Swal.fire("Error", "Error al obtener el ID de la habitación.", "error");
     });
 });
 
@@ -220,65 +261,106 @@ document.getElementById("formEditarReserva").addEventListener("submit", function
 <!-- JavaScript para el modal y la solicitud AJAX -->
 
 <script>
-    document.getElementById("formNuevaReserva").addEventListener("submit", function(event) {
+document.getElementById("formNuevaReserva").addEventListener("submit", function(event) {
     event.preventDefault(); // Evitar la recarga del formulario
 
     // Capturamos los datos del formulario
     const clienteid = document.getElementById("clienteid").value;
-    const cuartoid = document.getElementById("cuartoid").value;
+    const numerohabitacion = document.getElementById("cuartoid").value; // Ahora tomamos el número de habitación
     const numerohuespedes = document.getElementById("numerohuespedes").value;
     const comentarios = document.getElementById("comentarios").value;
     const estado = document.getElementById("estado").value;
     const montototal = document.getElementById("montototal").value;
     const fecha = document.getElementById("fecha").value;
 
-    // Enviamos los datos al servidor con AJAX
-    fetch('agregarReserva.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `clienteid=${clienteid}&cuartoid=${cuartoid}&numerohuespedes=${numerohuespedes}&comentarios=${comentarios}&estado=${estado}&montototal=${montototal}&fecha=${fecha}`
-    })
-    .then(response => response.text())  // Cambia a text() temporalmente para depuración
-    .then(data => {
-        console.log('Respuesta del servidor:', data); // Muestra la respuesta completa
-        try {
-            const jsonData = JSON.parse(data);
-            if (jsonData.error) {
-                alert(jsonData.error); // Mostrar mensaje de error en una alerta
-            } else {
-                // Si la reserva se agrega correctamente, actualizamos la tabla
-                const tabla = document.getElementById("reservasData");
-                const nuevaFila = document.createElement("tr");
+    // Usar SweetAlert2 para mostrar la alerta de confirmación
+    Swal.fire({
+        title: "¿Estás seguro de que deseas agregar esta reserva?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Sí, agregar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Primero, obtenemos el ID de la habitación a partir del número de habitación
+            fetch('getHabitacionId.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `numero_habitacion=${encodeURIComponent(numerohabitacion)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Si se encuentra el ID de la habitación, procedemos a enviar la reserva
+                    const cuartoid = data.id_habitacion; // Usamos el ID de la habitación
 
-                nuevaFila.setAttribute("data-reserva-id", jsonData.reserva_id);
-                nuevaFila.innerHTML = `
-                    <td>${jsonData.reserva_id}</td>
-                    <td>${jsonData.id_cliente}</td>
-                    <td>${jsonData.cuarto_id}</td>
-                    <td>${jsonData.num_huespedes}</td>
-                    <td>${jsonData.comentarios}</td>
-                    <td>${jsonData.estado}</td>
-                    <td>${jsonData.monto_total}</td>
-                    <td>${jsonData.fecha_registro}</td>
-                    <td>
-                        <button class='btnEditar' data-reserva-id='${jsonData.reserva_id}'>Editar</button>
-                        <button class='btnEliminar'>Eliminar</button>
-                    </td>
-                `;
+                    // Realizamos la solicitud para agregar la reserva
+                    fetch('agregarReserva.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `clienteid=${clienteid}&cuartoid=${cuartoid}&numerohuespedes=${numerohuespedes}&comentarios=${comentarios}&estado=${estado}&montototal=${montototal}&fecha=${fecha}`
+                    })
+                    .then(response => response.text())  // Cambia a text() temporalmente para depuración
+                    .then(data => {
+                        console.log('Respuesta del servidor:', data); // Muestra la respuesta completa
+                        try {
+                            const jsonData = JSON.parse(data);
+                            if (jsonData.error) {
+                                // Mostrar mensaje de error con SweetAlert2
+                                Swal.fire("Error", jsonData.error, "error");
+                            } else {
+                                // Si la reserva se agrega correctamente, actualizamos la tabla
+                                const tabla = document.getElementById("reservasData");
+                                const nuevaFila = document.createElement("tr");
 
-                tabla.appendChild(nuevaFila);
-                modalReserva.style.display = "none";
-            }
-        } catch (e) {
-            console.error('Error al parsear JSON:', e);
+                                nuevaFila.setAttribute("data-reserva-id", jsonData.reserva_id);
+                                nuevaFila.innerHTML = `
+                                    <td>${jsonData.reserva_id}</td>
+                                    <td>${jsonData.id_cliente}</td>
+                                    <td>${jsonData.cuarto_id}</td>
+                                    <td>${jsonData.num_huespedes}</td>
+                                    <td>${jsonData.comentarios}</td>
+                                    <td>${jsonData.estado}</td>
+                                    <td>${jsonData.monto_total}</td>
+                                    <td>${jsonData.fecha_registro}</td>
+                                    <td>
+                                        <button class='btnEditar' data-reserva-id='${jsonData.reserva_id}'><i class='fa fa-edit'></i></button>
+                                        <button class='btnEliminar'><i class='fa fa-trash' aria-hidden='true'></i></button>
+                                    </td>
+                                `;
+
+                                tabla.appendChild(nuevaFila);
+                                modalReserva.style.display = "none";
+
+                                // Mostrar mensaje de éxito con SweetAlert2
+                                Swal.fire("Reserva Agregada", "La reserva se ha agregado correctamente.", "success");
+                            }
+                        } catch (e) {
+                            console.error('Error al parsear JSON:', e);
+                            Swal.fire("Error", "Hubo un problema al procesar la respuesta del servidor.", "error");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire("Error", "Error en la solicitud al agregar la reserva.", "error");
+                    });
+                } else {
+                    // Si no se encuentra la habitación con ese número
+                    Swal.fire("Error", "No se encontró la habitación con el número ingresado.", "error");
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire("Error", "Error al obtener el ID de la habitación.", "error");
+            });
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
     });
 });
+
 </script>
 
 <script>
@@ -345,3 +427,5 @@ document.getElementById("formEditarReserva").addEventListener("submit", function
 
 
 </script>
+
+<?php include "../admin/includes/footer.php"; ?>
