@@ -23,7 +23,7 @@ if (isset($_POST['correo']) && isset($_POST['password'])) {
 
         if ($row['rol'] == 'recepcionista') {
             $_SESSION['nivel_acceso'] = 'recepcionista';
-            echo "../hotel1/user/recepcion.php"; 
+            echo "../hotel1/user/index.php"; 
             exit();
         } elseif ($row['rol'] == 'administrador') {
             $_SESSION['nivel_acceso'] = 'administrador';

@@ -59,9 +59,14 @@ include "../admin/includes/header.php";
                 echo "<td>" . htmlspecialchars($fila['numero_habitacion']) . "</td>";
                 echo "<td>" . htmlspecialchars($fila['cant_dias']) . "</td>";
                 echo "<td>" . htmlspecialchars($fila['id_empleado']) . "</td>";
-                echo "<td>";
-                echo "<button class='btnEditar' data-check-id='" . htmlspecialchars($fila['check_id']) . "'><i class='fa fa-edit'></i></button>";
-                echo "<button class='btnEliminar'><i class='fa fa-trash' aria-hidden='true'></i></button>";
+               
+                echo "<td style='display: flex; justify-content: center; align-items: center; height: 60px; gap: 2px;' >";
+                echo "<button class='btn btnEditar' data-check-id='" . htmlspecialchars($fila['check_id']) . "'>";
+                echo "<i class='fa fa-edit' style='margin-right: 5px;'></i></button>";
+                echo "<button class='btn btnEliminar'>";
+                echo "<i class='fa fa-trash' style='margin-right: 5px;' aria-hidden='true'></i></button>";
+                echo "</div>";
+                
                 echo "</td>";
                 echo "</tr>";
             }

@@ -4,6 +4,7 @@ include "../conecction/db.php"
 ?>
 
 
+
 <?php
 $sql = "SELECT nivel_id, nombre_nivel FROM niveles_habitaciones";
 $resultado = $conexion->query($sql);
@@ -87,7 +88,13 @@ $conexion->close();
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Asignar Cliente a Habitación <span id="numeroHabitacion"></span></h2>
-
+        <div class="swipe-padre">
+            <div class="swipe-container" id="swipeContainer">
+                <button class="swipe-button registro" id="">Registro</button>
+                <button class="swipe-button reservaciones" id="swipeButtonReservacion">Reservaciones</button>
+                
+            </div>
+        </div>
 
         <div class="input-container">
             <label for="buscador">Buscar Cliente:</label>
@@ -117,7 +124,52 @@ $conexion->close();
             <label for="cantidadP">Cantidad de personas:</label>
             <input type="number" id="cantidadP" name="cantidadP" required>
 
-            <button type="submit">Asignar Cliente</button>
+            <button type="submit" id="submit">Asignar Cliente</button>
+        </form>
+    </div>
+</div>
+
+<!-- Modal Para Reservaciones -->
+<div id="modalReservaciones" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeReservaciones">&times;</span>
+        <h2>Reservar Habitación <span id="numeroHabitacion1"></span></h2>
+        <div class="swipe-padre">
+            <div class="swipe-container" id="swipeContainer">
+                <button class="swipe-button registro" id="swipeButtonRegistro">Registro</button>
+                <button class="swipe-button reservaciones" id="">Reservaciones</button>
+
+            </div>
+        </div>
+        <div class="input-container">
+            <label for="buscador">Buscar Cliente:</label>
+            <input type="text" id="buscador" placeholder="Buscar por nombre o apellido" onkeyup="filtrarClientes()">
+
+            <div id="dropdownResultados" class="dropdown">
+                <ul id="listaClientes">
+                </ul>
+            </div>
+        </div>
+        <form id="asignarClienteReservaForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" >
+
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" >
+
+            <label for="telefono">Hola:</label>
+            <input type="tel" id="telefono" name="telefono" >
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" >
+
+            <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" >
+
+            <label for="cantidadP">Cantidad de personas:</label>
+            <input type="number" id="cantidadP" name="cantidadP" >
+
+            <button type="submit1" id="submit1">Asignar Cliente</button>
         </form>
     </div>
 </div>
@@ -125,21 +177,18 @@ $conexion->close();
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const dropdownToggle = document.querySelector(".dropdown-toggle");
-        const dropdown = document.querySelector(".dropdown");
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-        dropdownToggle.addEventListener("click", function(e) {
-            e.preventDefault();
-            dropdown.classList.toggle("active");
-        });
-    });
-</script>
+
 <script>
     const modal = document.getElementById("modalAsignarCliente");
+    const modalreservacion = document.getElementById("modalReservaciones");
     const closeModal = document.getElementsByClassName("close")[0];
+    const closeReservaciones = document.getElementById("closeReservaciones");
     const habitacionesDisponibles = document.querySelectorAll(".room-card.available");
+    const modalreservaciones = document.getElementById('modalReservaciones');
+    const buttonReservaciones = document.getElementById('swipeButtonReservacion');
+    const buttonRegistro = document.getElementById("swipeButtonRegistro");
 
     habitacionesDisponibles.forEach(habitacion => {
         habitacion.addEventListener("click", function() {
@@ -151,11 +200,30 @@ $conexion->close();
         modal.style.display = "none";
     };
 
+    closeReservaciones.onclick = function() {
+        modalreservaciones.style.display = "none";
+    };
+
+
     window.onclick = function(event) {
         if (event.target === modal) {
             modal.style.display = "none";
+        } else if (event.target === modalreservaciones) {
+            modalreservaciones.style.display = "none";
         }
     };
+
+    buttonRegistro.onclick = function() {
+        modal.style.display = "block";
+        modalreservaciones.style.display = "none";
+
+    };
+    buttonReservaciones.onclick = function() {
+        modalreservaciones.style.display = "block";
+        modal.style.display = "none";
+        
+     };
+    
 
 
 
@@ -215,8 +283,7 @@ $conexion->close();
                     container.innerHTML = `<p>Error al obtener las habitaciones: ${data.message}</p>`;
                 }
             })
-            .catch(error => {
-            });
+            .catch(error => {});
     }
 
     // Detectar clic en cualquier room-container y abrir modal
@@ -229,6 +296,7 @@ $conexion->close();
             modal.style.display = 'block';
 
             document.getElementById('numeroHabitacion').textContent = numeroHabitacion;
+            document.getElementById('numeroHabitacion1').textContent = numeroHabitacion;
         }
     });
 
@@ -276,7 +344,7 @@ $conexion->close();
                 if (clientes.clientes.length > 0) {
                     dropdownResultados.style.display = "block";
 
-                    clientes.clientes.forEach(cliente => { 
+                    clientes.clientes.forEach(cliente => {
                         const clienteItem = document.createElement("li");
                         clienteItem.textContent = `${cliente.nombre_cliente} ${cliente.apellido_cliente}`;
                         clienteItem.onclick = function() {
@@ -298,8 +366,7 @@ $conexion->close();
                 }
 
             })
-            .catch(error => {
-            });
+            .catch(error => {});
     }
 
 
@@ -312,6 +379,78 @@ $conexion->close();
             dropdownResultados.style.display = "none";
         }
     });
+
+    // ENVIAR REGISTRO
+    $('#submit').click(function(e) {
+            e.preventDefault(); // Evita el comportamiento por defecto del formulario
+
+            // Recoger los datos del formulario
+            var nombre = $('#nombre').val().trim();
+            var apellidos = $('#apellido').val().trim();
+            var correo = $('#email').val().trim();
+            var telefono = $('#telefono').val().trim();
+            var direccion = $('#direccion').val().trim();
+            var cantidad = $('#cantidadP').val().trim();
+
+            // Verificamos si algún campo obligatorio está vacío
+            if (nombre === '' || apellidos === '' || correo === '' || telefono === '' || direccion === '' || cantidad ==='') {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Todos los campos son obligatorios',
+                    icon: 'error'
+                });
+                return;
+            }
+
+            // Realizar la solicitud AJAX para actualizar los datos en el servidor
+            $.ajax({
+                type: 'POST',
+                url: '../admin/consultas/actualizarEmpleado.php', // Ruta al archivo PHP que manejará el update
+                data: {
+                    id: empleadoId, // ID del empleado que se va a actualizar
+                    nombre: nombre,
+                    apellidos: apellidos,
+                    correo: correo,
+                    rol: rol,
+                    telefono: telefono,
+                    password: password, // La contraseña solo se actualizará si se ha introducido un nuevo valor
+                    estado: estado, // La contraseña solo se actualizará si se ha introducido un nuevo valor
+                    fechaIngreso: fechaIngreso // La fecha no se edita, solo se envía tal como está
+                },
+                success: function(data) {
+                    // Verificamos la respuesta del servidor
+                    const response = JSON.parse(data);
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: 'Empleado actualizado correctamente',
+                            timer: 1500,
+                            showConfirmButton: false,
+                            icon: 'success'
+                        }).then(function() {
+                            // Cerrar el modal y recargar la página o realizar otras acciones
+                            $('#modalEditarEmpleado').hide();
+                            window.location.reload(); // Recargar la página
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: response.error,
+                            icon: 'error'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error al actualizar los datos del empleado:', xhr.responseText);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Hubo un problema al actualizar los datos del empleado.',
+                        icon: 'error'
+                    });
+                }
+            });
+        });
+
 </script>
 
 
