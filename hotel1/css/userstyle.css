@@ -905,6 +905,19 @@ h1 {
 #listaClientes li:hover {
     background-color: #f0f0f0;
 }
+#listaClientesReserva{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+#listaClientesReserva li{
+    padding: 8px;
+    cursor: pointer;
+}
+#listaClientesReserva li:hover{
+    background-color: #f0f0f0;
+
+}
 
  .swipe-padre {
     display: flex;
