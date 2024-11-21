@@ -290,6 +290,7 @@ h1 {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+
 }
 
 .modal-content button {
@@ -976,3 +977,14 @@ h1 {
     transition: transform 0.3s ease;
     z-index: 1;
 } */
+/* Estilo para el botón de confirmar (Disponible) */
+.swal2-confirm.btn-confirmar {
+    background-color: #28a745; /* Color verde */
+    border-color: #28a745;    /* Color verde */
+}
+
+/* Estilo para el botón de cancelar */
+.swal2-cancel.btn-cancelar {
+    background-color: #dc3545; /* Color rojo */
+    border-color: #dc3545;    /* Color rojo */
+}

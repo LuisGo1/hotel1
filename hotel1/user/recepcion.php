@@ -147,8 +147,6 @@ $conexion->close();
             <div id="dropdownResultadosReserva" class="dropdown">
                 <ul id="listaClientesReserva"></ul>
             </div>
-
-
         </div>
         <form id="asignarClienteReservaForm">
             <label for="nombrereserva">Nombre:</label>
@@ -175,6 +173,40 @@ $conexion->close();
         </form>
     </div>
 </div>
+
+<!-- Modal Para Mostrar Huesped -->
+<div id="modalhuespedes" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closehuesped">&times;</span>
+        <h2>Habitación <span id="numeroHabitacion1"></span></h2>
+        <form id="asignarClienteReservaForm">
+            <label for="nombrereserva">Nombre:</label>
+            <input type="text" id="nombrereserva" name="nombrereserva">
+
+            <label for="apellidohuesped">Apellido:</label>
+            <input type="text" id="apellidohuesped" name="apellidohuesped">
+
+            <label for="telefonohuesped">Telefono:</label>
+            <input type="number" id="telefonohuesped" name="telefonohuesped">
+
+            <label for="emailhuesped">Email:</label>
+            <input type="email" id="emailhuesped" name="emailhuesped">
+
+            <label for="direccionhuesped">Dirección:</label>
+            <input type="text" id="direccionhuesped" name="direccionhuesped">
+
+            <label for="cantidadhuesped">Cantidad de personas:</label>
+            <input type="number" id="cantidadhuesped" name="cantidadhuesped">
+            <label for="fechaingreso">Fecha de Ingreso:</label>
+            <input type="date" id="fechaingreso" name="fechaingreso" required />
+
+            <button type="submit" id="submialta">Dar de alta</button>
+            <button type="submit" id="mostrarticket">Ticket</button>
+
+        </form>
+    </div>
+</div>
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -276,7 +308,6 @@ $conexion->close();
                             </div>
                         `;
 
-                        roomContainer.addEventListener('click', () => gestionarHabitacion(roomContainer));
 
                         container.appendChild(roomContainer);
                     });
@@ -289,32 +320,104 @@ $conexion->close();
     let id_habitacion = null;
     // Detectar clic en cualquier room-container y abrir modal
     document.addEventListener("click", function(event) {
-        const roomContainer = event.target.closest(".room-container");
+    const roomContainer = event.target.closest(".room-container");
 
-        if (roomContainer) {
-            const estado = roomContainer.getAttribute("data-estado"); // Obtener el estado de la habitación
-            const numeroHabitacion = roomContainer.getAttribute("data-numero");
-            id_habitacion = roomContainer.getAttribute("data_idcuarto");
+    // Verificar si el clic ocurrió dentro de un room-container
+    if (roomContainer) {
+        const estado = roomContainer.getAttribute("data-estado"); // Obtener el estado de la habitación
+        const numeroHabitacion = roomContainer.getAttribute("data-numero");
+        const id_habitacion = roomContainer.getAttribute("data_idcuarto");
 
-            // Verificar si la habitación está en mantenimiento
-            if (estado === "mantenimiento") {
-                Swal.fire({
-                    title: "Habitación en mantenimiento",
-                    text: "Esta habitación no está disponible en estos momento. Por Favor comuniquese con Administración.",
-                    icon: "warning",
-                    confirmButtonText: "Aceptar"
-                });
-                return; // Salir de la función para evitar que se abra el modal
-            }
+        // Verificar el estado de la habitación
+        if (estado === "mantenimiento") {
+            Swal.fire({
+                title: "Habitación en mantenimiento",
+                text: "Esta habitación no está disponible en estos momento. Por favor, comuníquese con Administración.",
+                icon: "warning",
+                confirmButtonText: "Aceptar"
+            });
+            return; // Salir de la función para evitar que se abra el modal
+        } else if (estado === "reservado") {
+            Swal.fire({
+                title: "Reservado",
+                text: "Esta habitación está reservada.",
+                icon: "warning",
+                confirmButtonText: "Aceptar"
+            });
+            return; // No hacer nada más si está reservado
+        } else if (estado === "ocupado") {
+            const modalhuespedes = document.getElementById('modalhuespedes');
+            modalhuespedes.style.display = 'block';
+        } else if (estado === "limpieza") {
+            Swal.fire({
+                title: "Habitación en limpieza",
+                text: "¿Cambiar a Disponible?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Disponible",
+                cancelButtonText: "Cancelar",
+                customClass: {
+                    confirmButton: 'btn-confirmar',
+                    cancelButton: 'btn-cancelar'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const requestData = {
+                        id_habitacion: id_habitacion,
+                        nuevo_estado: 'disponible'
+                    };
 
-            // Abrir modal solo si la habitación NO está en mantenimiento
+                    // Actualizar el estado de la habitación
+                    fetch('../user/consultas/updatelimpieza.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(requestData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire({
+                                title: 'Actualización',
+                                text: 'La habitación ahora está disponible.',
+                                icon: 'success',
+                                showConfirmButton: false,
+                                timer: 1000
+                            }).then(() => {
+                                window.location.reload(); 
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'Hubo un problema al actualizar la habitación.',
+                                icon: 'error'
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Hubo un problema al conectar con el servidor.',
+                            icon: 'error'
+                        });
+                    });
+                }
+            });
+            return; // Salir si está en limpieza y se está mostrando el alert
+        } else if (estado === "disponible") {
+            // Mostrar modal solo si la habitación está disponible
             const modal = document.getElementById('modalAsignarCliente');
             modal.style.display = 'block';
-
-            document.getElementById('numeroHabitacion').textContent = numeroHabitacion;
-            document.getElementById('numeroHabitacion1').textContent = numeroHabitacion;
         }
-    });
+
+        // Actualizar el número de habitación en el modal
+        document.getElementById('numeroHabitacion').textContent = numeroHabitacion;
+        document.getElementById('numeroHabitacion1').textContent = numeroHabitacion;
+    }
+});
+
 
 
 
