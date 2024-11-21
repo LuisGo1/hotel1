@@ -223,7 +223,12 @@ $conexion->close();
     const modalreservaciones = document.getElementById('modalReservaciones');
     const buttonReservaciones = document.getElementById('swipeButtonReservacion');
     const buttonRegistro = document.getElementById("swipeButtonRegistro");
+    const closehuesped = document.getElementById('closehuesped');
 
+
+    closehuesped.onclick = function() {
+        modalhuespedes.style.display = "none";
+    };
 
     closeModal.onclick = function() {
         modal.style.display = "none";
@@ -239,6 +244,8 @@ $conexion->close();
             modal.style.display = "none";
         } else if (event.target === modalreservaciones) {
             modalreservaciones.style.display = "none";
+        } else if (event.target === modalhuespedes) {
+            modalhuespedes.style.display = "none";
         }
     };
 
@@ -252,8 +259,6 @@ $conexion->close();
         modal.style.display = "none";
 
     };
-
-
 
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -320,103 +325,106 @@ $conexion->close();
     let id_habitacion = null;
     // Detectar clic en cualquier room-container y abrir modal
     document.addEventListener("click", function(event) {
-    const roomContainer = event.target.closest(".room-container");
+        const roomContainer = event.target.closest(".room-container");
 
-    // Verificar si el clic ocurrió dentro de un room-container
-    if (roomContainer) {
-        const estado = roomContainer.getAttribute("data-estado"); // Obtener el estado de la habitación
-        const numeroHabitacion = roomContainer.getAttribute("data-numero");
-        const id_habitacion = roomContainer.getAttribute("data_idcuarto");
+        // Verificar si el clic ocurrió dentro de un room-container
+        if (roomContainer) {
+            const estado = roomContainer.getAttribute("data-estado"); // Obtener el estado de la habitación
+            const numeroHabitacion = roomContainer.getAttribute("data-numero");
+            id_habitacion = roomContainer.getAttribute("data_idcuarto");
 
-        // Verificar el estado de la habitación
-        if (estado === "mantenimiento") {
-            Swal.fire({
-                title: "Habitación en mantenimiento",
-                text: "Esta habitación no está disponible en estos momento. Por favor, comuníquese con Administración.",
-                icon: "warning",
-                confirmButtonText: "Aceptar"
-            });
-            return; // Salir de la función para evitar que se abra el modal
-        } else if (estado === "reservado") {
-            Swal.fire({
-                title: "Reservado",
-                text: "Esta habitación está reservada.",
-                icon: "warning",
-                confirmButtonText: "Aceptar"
-            });
-            return; // No hacer nada más si está reservado
-        } else if (estado === "ocupado") {
-            const modalhuespedes = document.getElementById('modalhuespedes');
-            modalhuespedes.style.display = 'block';
-        } else if (estado === "limpieza") {
-            Swal.fire({
-                title: "Habitación en limpieza",
-                text: "¿Cambiar a Disponible?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Disponible",
-                cancelButtonText: "Cancelar",
-                customClass: {
-                    confirmButton: 'btn-confirmar',
-                    cancelButton: 'btn-cancelar'
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const requestData = {
-                        id_habitacion: id_habitacion,
-                        nuevo_estado: 'disponible'
-                    };
+            // Verificar el estado de la habitación
+            if (estado === "mantenimiento") {
+                Swal.fire({
+                    title: "Habitación en mantenimiento",
+                    text: "Esta habitación no está disponible en estos momento. Por favor, comuníquese con Administración.",
+                    icon: "warning",
+                    confirmButtonText: "Aceptar"
+                });
+                return; // Salir de la función para evitar que se abra el modal
+            } else if (estado === "reservado") {
+                Swal.fire({
+                    title: "Reservado",
+                    text: "Esta habitación está reservada.",
+                    icon: "warning",
+                    confirmButtonText: "Aceptar"
+                });
+                return; // No hacer nada más si está reservado
+            } else if (estado === "ocupado") {
+                const modalhuespedes = document.getElementById('modalhuespedes');
+                mostrarhuesped(id_habitacion);
+                modalhuespedes.style.display = 'block'; 
+                
 
-                    // Actualizar el estado de la habitación
-                    fetch('../user/consultas/updatelimpieza.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(requestData)
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                title: 'Actualización',
-                                text: 'La habitación ahora está disponible.',
-                                icon: 'success',
-                                showConfirmButton: false,
-                                timer: 1000
-                            }).then(() => {
-                                window.location.reload(); 
+            } else if (estado === "limpieza") {
+                Swal.fire({
+                    title: "Habitación en limpieza",
+                    text: "¿Cambiar a Disponible?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "Disponible",
+                    cancelButtonText: "Cancelar",
+                    customClass: {
+                        confirmButton: 'btn-confirmar',
+                        cancelButton: 'btn-cancelar'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const requestData = {
+                            id_habitacion: id_habitacion,
+                            nuevo_estado: 'disponible'
+                        };
+
+                        // Actualizar el estado de la habitación
+                        fetch('../user/consultas/updatelimpieza.php', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(requestData)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire({
+                                        title: 'Actualización',
+                                        text: 'La habitación ahora está disponible.',
+                                        icon: 'success',
+                                        showConfirmButton: false,
+                                        timer: 1000
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        title: 'Error',
+                                        text: 'Hubo un problema al actualizar la habitación.',
+                                        icon: 'error'
+                                    });
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: 'Hubo un problema al conectar con el servidor.',
+                                    icon: 'error'
+                                });
                             });
-                        } else {
-                            Swal.fire({
-                                title: 'Error',
-                                text: 'Hubo un problema al actualizar la habitación.',
-                                icon: 'error'
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire({
-                            title: 'Error',
-                            text: 'Hubo un problema al conectar con el servidor.',
-                            icon: 'error'
-                        });
-                    });
-                }
-            });
-            return; // Salir si está en limpieza y se está mostrando el alert
-        } else if (estado === "disponible") {
-            // Mostrar modal solo si la habitación está disponible
-            const modal = document.getElementById('modalAsignarCliente');
-            modal.style.display = 'block';
+                    }
+                });
+                return; // Salir si está en limpieza y se está mostrando el alert
+            } else if (estado === "disponible") {
+                // Mostrar modal solo si la habitación está disponible
+                const modal = document.getElementById('modalAsignarCliente');
+                modal.style.display = 'block';
+            }
+
+            // Actualizar el número de habitación en el modal
+            document.getElementById('numeroHabitacion').textContent = numeroHabitacion;
+            document.getElementById('numeroHabitacion1').textContent = numeroHabitacion;
         }
-
-        // Actualizar el número de habitación en el modal
-        document.getElementById('numeroHabitacion').textContent = numeroHabitacion;
-        document.getElementById('numeroHabitacion1').textContent = numeroHabitacion;
-    }
-});
+    });
 
 
 
@@ -691,6 +699,29 @@ $conexion->close();
             }
         });
     });
+
+    function mostrarhuesped(id_habitacion) {
+        // Enviar el ID al servidor para obtener los datos
+        console.log("id",id_habitacion);
+        fetch('../user/consultas/obtenerhuesped.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+                return response.json();
+            })
+            .then(habitacioness => {
+                if (habitaciones.success) {
+                    console.log("huespedes",habitaciones);                    
+                }
+                
+            })
+            .catch(error => {
+                console.error("Error al buscar clientes:", error);
+                dropdownResultadosAsignar.style.display = "none";
+                dropdownResultadosReserva.style.display = "none";
+            });
+    }
 </script>
 
 
