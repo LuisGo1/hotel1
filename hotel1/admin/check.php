@@ -158,6 +158,7 @@ include "../admin/includes/header.php";
 </div>
 
 </div>
+<?php include "../admin/includes/footer.php"; ?>
 
 <!-- JavaScript para el modal y la solicitud AJAX -->
 
@@ -491,8 +492,20 @@ document.getElementById("formEditarCheckInOut").addEventListener("submit", funct
         });
     });
 });
-
+$('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
 
 </script>
 
-<?php include "../admin/includes/footer.php"; ?>

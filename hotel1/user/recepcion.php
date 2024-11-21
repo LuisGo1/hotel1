@@ -121,7 +121,7 @@ $conexion->close();
             <label for="direccion">Dirección:</label>
             <input type="text" id="direccion" name="direccion" required>
 
-            <label for="cantidadP">Cantidad de personas:</label>
+            <label for="cantidadP">Cantidad de Días:</label>
             <input type="number" id="cantidadP" name="cantidadP" required>
 
             <button type="submit" id="submit">Asignar Cliente</button>
@@ -164,7 +164,7 @@ $conexion->close();
             <label for="direccionreserva">Dirección:</label>
             <input type="text" id="direccionreserva" name="direccion">
 
-            <label for="cantidadPreserva">Cantidad de personas:</label>
+            <label for="cantidadPreserva">Cantidad de Días:</label>
             <input type="number" id="cantidadPreserva" name="cantidadP">
             <label for="fechaingresoreserva">Fecha de Ingreso:</label>
             <input type="date" id="fechaingresoreserva" name="fechaingresoreserva" required />
@@ -180,27 +180,27 @@ $conexion->close();
         <span class="close" id="closehuesped">&times;</span>
         <h2>Habitación <span id="numeroHabitacion1"></span></h2>
         <form id="asignarClienteReservaForm">
-            <label for="nombrereserva">Nombre:</label>
-            <input type="text" id="nombrereserva" name="nombrereserva">
+            <label for="nombrehuesped">Nombre:</label>
+            <input type="text" id="nombrehuesped" name="nombrehuesped" disabled>
 
             <label for="apellidohuesped">Apellido:</label>
-            <input type="text" id="apellidohuesped" name="apellidohuesped">
+            <input type="text" id="apellidohuesped" name="apellidohuesped" disabled>
 
             <label for="telefonohuesped">Telefono:</label>
-            <input type="number" id="telefonohuesped" name="telefonohuesped">
+            <input type="number" id="telefonohuesped" name="telefonohuesped" disabled>
 
             <label for="emailhuesped">Email:</label>
-            <input type="email" id="emailhuesped" name="emailhuesped">
+            <input type="email" id="emailhuesped" name="emailhuesped" disabled>
 
             <label for="direccionhuesped">Dirección:</label>
-            <input type="text" id="direccionhuesped" name="direccionhuesped">
+            <input type="text" id="direccionhuesped" name="direccionhuesped" disabled>
 
-            <label for="cantidadhuesped">Cantidad de personas:</label>
+            <label for="cantidadhuesped">Cantidad de Días:</label>
             <input type="number" id="cantidadhuesped" name="cantidadhuesped">
             <label for="fechaingreso">Fecha de Ingreso:</label>
-            <input type="date" id="fechaingreso" name="fechaingreso" required />
+            <input type="date" id="fechaingreso" name="fechaingreso" required disabled />
 
-            <button type="submit" id="submialta">Dar de alta</button>
+            <button type="" id="submialta">Dar de alta</button>
             <button type="submit" id="mostrarticket">Ticket</button>
 
         </form>
@@ -352,9 +352,9 @@ $conexion->close();
                 return; // No hacer nada más si está reservado
             } else if (estado === "ocupado") {
                 const modalhuespedes = document.getElementById('modalhuespedes');
-                mostrarhuesped(id_habitacion);
-                modalhuespedes.style.display = 'block'; 
-                
+                mostrarHuesped(id_habitacion);
+                modalhuespedes.style.display = 'block';
+
 
             } else if (estado === "limpieza") {
                 Swal.fire({
@@ -699,29 +699,106 @@ $conexion->close();
             }
         });
     });
+    let id_cliente_global;
+    let fecha_ingreso;
 
-    function mostrarhuesped(id_habitacion) {
-        // Enviar el ID al servidor para obtener los datos
-        console.log("id",id_habitacion);
-        fetch('../user/consultas/obtenerhuesped.php')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
-                }
-                return response.json();
+    function mostrarHuesped(id_habitacion) {
+        console.log("id", id_habitacion);
+
+        // Realizar la solicitud al servidor
+        fetch('../user/consultas/obtenerhuesped.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json', // Especificar que los datos serán en formato JSON
+                },
+                body: JSON.stringify({
+                    id_habitacion: id_habitacion
+                }) // Enviar el id_habitacion en formato JSON
             })
-            .then(habitacioness => {
-                if (habitaciones.success) {
-                    console.log("huespedes",habitaciones);                    
-                }
-                
+            .then(response => response.json()) // Esperar que el servidor responda en formato JSON
+            .then(data => {
+                console.log("Datos recibidos:", data);
+                document.getElementById("nombrehuesped").value = data.nombre_cliente;
+                document.getElementById("apellidohuesped").value = data.apellido_cliente;
+                document.getElementById("telefonohuesped").value = data.telefono;
+                document.getElementById("emailhuesped").value = data.email;
+                document.getElementById("direccionhuesped").value = data.direccion;
+                document.getElementById("cantidadhuesped").value = data.cant_dias;
+                document.getElementById("fechaingreso").value = data.fecha_check_in;
+                id_cliente_global = data.cliente_id;
+                fecha_ingreso = data.fecha_check_in;
+
             })
             .catch(error => {
-                console.error("Error al buscar clientes:", error);
-                dropdownResultadosAsignar.style.display = "none";
-                dropdownResultadosReserva.style.display = "none";
+                console.error("Error al obtener los datos:", error);
             });
     }
+    $('#submialta').click(function(e) {
+        e.preventDefault(); // Evita que la página se refresque
+
+        console.log("id_habitacion", id_habitacion);
+        console.log("cliente", id_cliente_global);
+        console.log("fecha", fecha_ingreso);
+
+        $.ajax({
+            type: 'POST',
+            url: '../user/consultas/',
+            data: {
+                id: id_cliente_global,
+                id_cuarto: id_habitacion,
+                fecha_ingreso: fecha_ingreso
+
+
+
+            },
+
+            success: function(data) {
+                console.log("respuest", data);
+                const response = JSON.parse(data);
+                if (response.success) {
+                    Swal.fire({
+                        title: 'Éxito',
+                        text: 'Datos Guardados correctamente',
+                        timer: 1500,
+                        showConfirmButton: false,
+                        icon: 'success'
+                    }).then(function() {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Error',
+                        text: response.error,
+                        icon: 'error'
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error al actualizar los datos:', xhr.responseText);
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Hubo un problema al actualizar los datos.',
+                    icon: 'error'
+                });
+            }
+        });
+
+    });
+
+    $('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) =>{
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
 </script>
 
 

@@ -289,7 +289,21 @@ include "../admin/includes/header.php";
                 window.location.href = '../admin/consultas/eliminarcaja.php?id=' + caja_id;
             }
         });
-    }
+    };
+    $('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
 </script>
 
 </html>

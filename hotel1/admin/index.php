@@ -97,7 +97,25 @@ include "../conecction/db.php";
     </div>
 
 </body>
+<?php include "../admin/includes/footer.php" ?>
 <script>
+   $('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) =>{
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
+</script>
+<script>
+    
     document.addEventListener('DOMContentLoaded', function() {
         // Llamar a la función confirmclic con el primer nivel disponible
         const primerNivel = document.querySelector('.level-card'); // Selecciona el primer nivel
@@ -112,11 +130,11 @@ include "../conecction/db.php";
     function confirmclic(nivelId) {
         const niveles = document.querySelectorAll('.level-card');
         niveles.forEach(nivel => {
-            nivel.classList.remove('selected'); 
+            nivel.classList.remove('selected');
         });
 
         const nivelSeleccionado = document.querySelector(`[data-id='${nivelId}']`);
-        nivelSeleccionado.classList.add('selected'); 
+        nivelSeleccionado.classList.add('selected');
 
         fetch('../admin/con_index/obtenerhabitaciones.php', {
                 method: 'POST',
@@ -158,7 +176,7 @@ include "../conecction/db.php";
                                 break;
                         }
 
-                        
+
                         habitacionDiv.innerHTML = `
             <h3>${habitacion.numero_habitacion} ${habitacion.tipo_habitacion}</h3>
             <p class="descripcion">${habitacion.descripcion}</p>
@@ -168,18 +186,14 @@ include "../conecction/db.php";
         `;
 
 
-        habitacionDiv.addEventListener('click', () => {
-        console.log(`Habitación clickeada: ${habitacion.cuarto_id}`);
-        
+                        habitacionDiv.addEventListener('click', () => {
+                            console.log(`Habitación clickeada: ${habitacion.cuarto_id}`);
 
 
-
-
-        
-    });
+                        });
                         container.appendChild(habitacionDiv);
                     });
-                        
+
 
                 } else {
                     alert('Error al obtener las habitaciones: ' + data.message);
@@ -188,7 +202,8 @@ include "../conecction/db.php";
             .catch(error => {
                 console.error('Error:', error);
             });
-    }
+    };
+
 </script>
 
 

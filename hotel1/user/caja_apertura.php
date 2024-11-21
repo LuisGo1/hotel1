@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "../user/includes/header.php";
 ?>
 
@@ -24,67 +23,81 @@ include "../user/includes/header.php";
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-// Habilita el botón solo si el monto es mayor a 0
-const montoInput = document.getElementById("monto");
-const abrirBtn = document.getElementById("submit-btn");
+    // Habilita el botón solo si el monto es mayor a 0
+    const montoInput = document.getElementById("monto");
+    const abrirBtn = document.getElementById("submit-btn");
 
-montoInput.addEventListener("input", function() {
-    abrirBtn.disabled = montoInput.value <= 0;
-});
+    montoInput.addEventListener("input", function() {
+        abrirBtn.disabled = montoInput.value <= 0;
+    });
 
-// Manejo de la solicitud AJAX
-document.getElementById("aperturaForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evita el envío normal del formulario
+    // Manejo de la solicitud AJAX
+    document.getElementById("aperturaForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Evita el envío normal del formulario
 
-    const formData = {
-        fecha: document.getElementById("fecha").value,
-        monto: document.getElementById("monto").value,
-        empleado_id: document.getElementById("empleado_id").value
-    };
+        const formData = {
+            fecha: document.getElementById("fecha").value,
+            monto: document.getElementById("monto").value,
+            empleado_id: document.getElementById("empleado_id").value
+        };
 
-    // Enviar datos con AJAX
-    $.ajax({
-        url: "apertura_backend.php", // Ruta al archivo PHP del backend
-        type: "POST",
-        data: formData,
-        success: function(response) {
-            try {
-                // Asegúrate de que la respuesta sea válida JSON
-                const data = JSON.parse(response);
+        // Enviar datos con AJAX
+        $.ajax({
+            url: "apertura_backend.php", // Ruta al archivo PHP del backend
+            type: "POST",
+            data: formData,
+            success: function(response) {
+                try {
+                    // Asegúrate de que la respuesta sea válida JSON
+                    const data = JSON.parse(response);
 
-                if (data.success) {
-                    Swal.fire({
-                        title: 'Éxito',
-                        text: data.message,
-                        icon: 'success',
-                        timer: 1500,
-                        showConfirmButton: false
-                    }).then(() => {
-                        window.location.reload(); // Recargar página si es necesario
-                    });
-                } else {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Éxito',
+                            text: data.message,
+                            icon: 'success',
+                            timer: 1500,
+                            showConfirmButton: false
+                        }).then(() => {
+                            window.location.reload(); // Recargar página si es necesario
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: data.error,
+                            icon: 'error'
+                        });
+                    }
+                } catch (error) {
+                    // Si la respuesta no es JSON válido
                     Swal.fire({
                         title: 'Error',
-                        text: data.error,
+                        text: 'La respuesta no es válida. Por favor, intenta de nuevo.',
                         icon: 'error'
                     });
                 }
-            } catch (error) {
-                // Si la respuesta no es JSON válido
+            },
+            error: function() {
                 Swal.fire({
                     title: 'Error',
-                    text: 'La respuesta no es válida. Por favor, intenta de nuevo.',
+                    text: 'Ocurrió un error inesperado. Por favor, intenta más tarde.',
                     icon: 'error'
                 });
             }
-        },
-        error: function() {
-            Swal.fire({
-                title: 'Error',
-                text: 'Ocurrió un error inesperado. Por favor, intenta más tarde.',
-                icon: 'error'
-            });
-        }
+        });
     });
-});
+    $('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
 </script>

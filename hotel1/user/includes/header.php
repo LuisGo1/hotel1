@@ -91,6 +91,6 @@ if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 3
     </ul>
     <div class="bottom-section">
         <hr class="separate-line">
-        <li class="logout"><a href=""><i class="fa-solid fa-right-to-bracket"></i><span>Cerrar Sesión</span></a></li>
+        <li class="logout"><a id="cerrarsesion"><i class="fa-solid fa-right-to-bracket"></i><span>Cerrar Sesión</span></a></li>
     </div>
 </div>

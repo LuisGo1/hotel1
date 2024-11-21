@@ -63,7 +63,7 @@ if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 3
         <div class="contenerdor-navbar">
             <img src="../user/imagenes/logo.jpg" alt="Logo" class="logo-img">
             <h2>Bienvenido <?php echo $nombreUsuario; ?></h2>
-            <a><i class="fa-solid fa-power-off"></i></a>
+            <a id="cerrarsesion" ><i class="fa-solid fa-power-off"></i></a>
         </div>
     </nav>
 </header>
@@ -162,7 +162,21 @@ if (isset($_SESSION['last_activity']) && time() - $_SESSION['last_activity'] > 3
             default:
                 console.log("Botón no definido");
         }
-    }
+    };
+    $('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) =>{
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
 </script>
 
 </html>

@@ -141,12 +141,14 @@ include "../admin/includes/header.php"; // Continuar con el resto del código HT
 
     
 </div>
+<?php include "../admin/includes/footer.php" ?>
 
 <script src="../js/scripts.js"></script>
 
 
 
 <script>
+
     const modalaggHabitacion = document.getElementById("modalHabitacion");
     const btnAggHabitacion = document.getElementById("btnNuevaHabitacion");
     const span = document.getElementsByClassName("close")[0];
@@ -425,7 +427,20 @@ xhr.onload = function() {
 };
 
 });
+$('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
 
 </script>
-<?php include "../admin/includes/footer.php"; ?>
 </html>

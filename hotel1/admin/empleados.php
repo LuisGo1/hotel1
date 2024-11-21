@@ -139,7 +139,6 @@ Una minúscula y un número."
                     <option value="inactivo">INACTIVO</option>
                     <!-- Puedes agregar más opciones según sea necesario -->
                 </select>
-
                 <label for="fechaIngresoEmpleado">Fecha de Ingreso:</label>
                 <input type="date" id="EditfechaIngresoEmpleado" name="fechaIngresoEmpleado" required disabled />
 
@@ -537,6 +536,20 @@ Una minúscula y un número."
             }
         });
     }
+    $('#cerrarsesion').click(function(e) {
+        Swal.fire({
+            title: 'Cerrar sesión',
+            text: '¿Esta seguro de cerrar sesión?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: 'Si, Cerrar Sesion',
+            icon: "question"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                location.href = '../validacion/cerrarsesion.php';
+            }
+        });
+    });
 </script>
 
 
