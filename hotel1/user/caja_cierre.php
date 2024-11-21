@@ -1,6 +1,32 @@
 <?php
 include "../user/includes/header.php";
 ?>
+  <style>
+        .styled-pdf-btn {
+            background-color: #e53935; /* Rojo */
+            color: white;              /* Letras blancas */
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .styled-pdf-btn:hover {
+            background-color: #d32f2f; /* Rojo más oscuro */
+            transform: scale(1.05);    /* Efecto de aumento */
+        }
+
+        .styled-pdf-btn:active {
+            background-color: #c62828; /* Rojo oscuro */
+            transform: scale(1);
+        }
+    </style>
 <div class="bodycieCrrecaja">
     <div class="cierre-caja-container">
         <h2>Cierre de Caja</h2>
@@ -30,6 +56,7 @@ include "../user/includes/header.php";
                     <th>Saldo Final</th>
                     <th>Estado</th>
                     <th>Empleado ID</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -73,7 +100,12 @@ include "../user/includes/header.php";
                             tr.append("<td>" + caja.saldo_final + "</td>");
                             tr.append("<td>" + caja.estado + "</td>");
                             tr.append("<td>" + caja.empleado_id + "</td>");
-                            tbody.append(tr); // Agregar la fila a la tabla
+                            tr.append(`
+                                <td>
+                                   <button class="btn-pdf styled-pdf-btn" data-id="${caja.caja_id}" data-info='${JSON.stringify(caja)}'>Generar PDF</button>
+                                 </td>
+                            `);
+                             tbody.append(tr);
                         });
                     } else {
                         Swal.fire({
@@ -158,6 +190,46 @@ include "../user/includes/header.php";
             }
         });
     });
+
+
+    $(document).on('click', '.btn-pdf', function() {
+    const cajaId = $(this).data('id');
+    const cajaInfo = $(this).data('info');
+
+    // Asegúrate de enviar los datos como cadena JSON
+    $.ajax({
+        url: 'cierrepdf.php', // Archivo PHP que genera el PDF
+        type: 'POST',
+        data: { cajaId, cajaInfo: JSON.stringify(cajaInfo) }, // Convertir a JSON
+        success: function(response) {
+            const data = JSON.parse(response);
+            if (data.success) {
+                Swal.fire({
+                    title: 'PDF Generado',
+                    text: 'El PDF se ha generado correctamente.',
+                    icon: 'success'
+                });
+                window.open(data.pdf_url, '_blank'); // Abre el PDF en una nueva pestaña
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: data.error,
+                    icon: 'error'
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Error',
+                text: 'Ocurrió un error al generar el PDF.',
+                icon: 'error'
+            });
+        }
+    });
+});
+
+
 </script>
+
 </body>
-</html>
+</html> 
