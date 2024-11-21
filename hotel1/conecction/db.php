@@ -1,8 +1,8 @@
 <?php
 
-$host = "localhost";
-$user = "root";
-$password = "";
+$host = "hoteldb.czikeku485po.us-east-2.rds.amazonaws.com";
+$user = "admin";
+$password = "Luis2020.";
 $database = "hoteldb2";
 
 
